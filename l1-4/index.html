@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Page description">
+    <meta name="keywords" content="interesting, wow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/index.css">
+    <title>Руки вверх!</title>
+
+    <style>
+      @import url("css/bg.css");
+    </style>
+
+    <style>
+      .styled-image img {
+        width: 20vw; /* Ширина изображения */
+        border-radius: 15px; /* Скругление углов изображения */
+        transition: transform 0.3s; /* Плавный переход при наведении */
+      }
+
+      .styled-image:hover img {
+          transform: scale(1.05); /* Увеличение изображения при наведении */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-center">
+      <div class="container-center container-col container-space" style="width: 80%; margin: 5vw 0vw 5vw 0vw;">
+        <div class="container-left" style="width: 20%; height: 3.5vw; text-align: left; width: 100%;">
+          <p class="title">
+            Руки вверх
+          </p>
+        </div>
+        <div class="container-row">
+          <div class="container-left">
+            <p class="description">
+              «Руки Вверх!» — российская музыкальная поп-группа. До августа 2006 года состояла из Сергея Жукова и Алексея Потехина.
+            </p>
+          </div>
+          <div class="container-right styled-image">
+            <img style="width: 20vw;" src="media/rv.jpeg" alt="Oxxxymiron">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-col container-space" style="width: 80%; margin: 0vw 0vw 2vw 0vw;"></div>
+    <div class="container-center">
+      <div class="container-col container-space" style="width: 80%; margin: 0vw 0vw 2vw 0vw;">
+        <div class="container-row" style="height: 3.5vw; gap: 2%;">
+            <img style="height: 100%;" src="media/kroshka.jpeg" alt="Perepleteno">       
+            <audio src="audio/kroshka.mp3" style="height: 100%; width: 60vw;" controls></audio>
+        </div>
+      </div>
+    </div>
+    <div class="container-center">
+      <div class="container-col container-space" style="width: 80%; margin: 0vw 0vw 2vw 0vw;">
+        <div class="container-row" style="height: 3.5vw; gap: 2%;">
+            <img style="height: 100%;" src="media/18mne.jpeg" alt="Perepleteno">       
+            <audio src="audio/18mne.mp3" style="height: 100%; width: 60vw;" controls></audio>
+        </div>
+      </div>
+    </div>
+    <div class="container-center" style="position: fixed; bottom: 0.2vw; left: 50%; transform: translateX(-50%); z-index: 1000;">
+      <div class="container-row container-space" style="gap: 2vw;">
+        <a href="">&lt;</a>
+        <a href="pages/1.html">></a>
+      </div>
+    </div>
+  </body>
+</html>

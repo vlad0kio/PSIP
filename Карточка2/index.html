@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Совмещенное задание</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --error-color: #f72585;
+            --success-color: #00ff08;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            color: var(--dark-color);
+            background-color: #f5f7fa;
+        }
+        
+        h1, h2, h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+        
+        /* Стили для персональной информации */
+        .personal-info {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+        
+        .personal-info:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Стили для работы с DOM */
+        .node-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .node {
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            background-color: white;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+        
+        .node:hover {
+            border-color: var(--accent-color);
+            transform: translateX(5px);
+        }
+        
+        /* Стили для формы */
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin: 40px 0;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-family: inherit;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        button {
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 16px;
+            transition: var(--transition);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        #personal-image {
+            max-width: 50%;
+            height: auto;
+            border: 1px solid #ddd;
+            margin-top: 20px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            box-shadow: var(--box-shadow);
+        }
+        
+        #personal-image:hover {
+            transform: scale(1.8) rotate(2deg);
+            border: 2px solid var(--success-color);
+            z-index: 10;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        #referrerInfo {
+            margin-top: 30px;
+            padding: 15px 20px;
+            background-color: #e7f3fe;
+            border-left: 5px solid var(--accent-color);
+            display: none;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        a:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+        
+        .error {
+            color: var(--error-color);
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .error-icon {
+            color: var(--error-color);
+            margin-right: 5px;
+        }
+        
+        input:invalid, select:invalid, textarea:invalid {
+            border-color: var(--error-color);
+            background-color: rgba(247, 37, 133, 0.05);
+        }
+        
+        input:valid, select:valid, textarea:valid {
+            border-color: #4bb543;
+        }
+        
+        .validation-message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            display: none;
+        }
+        
+        .validation-error {
+            background-color: rgba(247, 37, 133, 0.1);
+            border-left: 4px solid var(--error-color);
+            color: var(--error-color);
+        }
+        
+        .validation-success {
+            background-color: rgba(76, 201, 240, 0.1);
+            border-left: 4px solid var(--success-color);
+            color: var(--success-color);
+        }
+        
+        .character-count {
+            font-size: 12px;
+            color: #666;
+            text-align: right;
+            margin-top: 5px;
+        }
+        
+        .character-count.error {
+            color: var(--error-color);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Первая часть задания - персональная информация -->
+    <div class="personal-info">
+        <h1>Персональная информация</h1>
+        <p>Уланович Владислав Дмитриевич</p>
+        <a href="https://shikimori.one/vladokio" target="_blank">Мой любимый сайт</a>
+        <div>
+            <img id="personal-image" src="Friresha10.jpg" alt="Пример изображения">
+        </div>
+    </div>
+
+    <!-- Вторая часть задания - работа с DOM -->
+    <h1>Работа с Document и DOM</h1>
+    
+    <div class="node-container" id="nodesContainer">
+        <div class="node" id="node1">
+            <h2>Узел 1</h2>
+            <p>Это первый узел</p>
+        </div>
+        <div class="node" id="node2">
+            <h2>Узел 2</h2>
+            <p>Это второй узел</p>
+            <button id="swapButton">Поменять местами узлы 2 и 3</button>
+        </div>
+        <div class="node" id="node3">
+            <h2>Узел 3</h2>
+            <p>Это третий узел</p>
+        </div>
+    </div>
+    
+    <div id="referrerInfo"></div>
+
+    <!-- Третья часть задания - форма с валидацией -->
+    <div class="form-container">
+        <h1>Пользовательская форма</h1>
+        
+        <form id="userForm" novalidate>
+            <div class="form-group">
+                <label for="name">ФИО*</label>
+                <input type="text" id="name" name="name" required 
+                       minlength="5" maxlength="50" 
+                       placeholder="Введите ваше полное имя">
+                <div class="error" id="nameError">
+                    <span class="error-icon">✖</span> Поле обязательно для заполнения (5-50 символов)
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email*</label>
+                <input type="email" id="email" name="email" required 
+                       placeholder="example@domain.com">
+                <div class="error" id="emailError">
+                    <span class="error-icon">✖</span> Введите корректный email-адрес
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Телефон</label>
+                <input type="tel" id="phone" name="phone" 
+                       pattern="[\+]\d{1}\s[\(]\d{3}[\)]\s\d{3}[\-]\d{2}[\-]\d{2}" 
+                       placeholder="+7 (XXX) XXX-XX-XX">
+                <div class="error" id="phoneError">
+                    <span class="error-icon">✖</span> Формат: +7 (XXX) XXX-XX-XX
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Пароль*</label>
+                <input type="password" id="password" name="password" required 
+                       minlength="8" maxlength="20" 
+                       placeholder="Не менее 8 символов">
+                <div class="error" id="passwordError">
+                    <span class="error-icon">✖</span> Пароль должен содержать 8-20 символов
+                </div>
+                <div class="character-count" id="passwordCount">0/20</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="message">Сообщение</label>
+                <textarea id="message" name="message" rows="4" 
+                          maxlength="200" placeholder="Максимум 200 символов"></textarea>
+                <div class="error" id="messageError">
+                    <span class="error-icon">✖</span> Сообщение слишком длинное
+                </div>
+                <div class="character-count" id="messageCount">0/200</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="gender">Пол</label>
+                <select id="gender" name="gender">
+                    <option value="" selected disabled>Выберите пол</option>
+                    <option value="male">Мужской</option>
+                    <option value="female">Женский</option>
+                    <option value="other">Другой</option>
+                </select>
+            </div>
+            
+            <button type="submit">Отправить</button>
+        </form>
+        
+        <div id="validationMessage" class="validation-message"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Часть 1: Работа с DOM
+            // Функция для получения и отображения информации о реферере
+            function showReferrer() {
+                const referrer = document.referrer;
+                const referrerInfo = document.getElementById('referrerInfo');
+                
+                if (referrer) {
+                    referrerInfo.innerHTML = `<p>Вы перешли на эту страницу с: <strong>${referrer}</strong></p>`;
+                } else {
+                    referrerInfo.innerHTML = '<p>Вы открыли эту страницу напрямую или информация о реферере недоступна</p>';
+                }
+                
+                referrerInfo.style.display = 'block';
+            }
+            
+            // Вызов функции через 5 секунд
+            setTimeout(showReferrer, 5000);
+            
+            // Функция для замены узлов 2 и 3 местами
+            function swapNodes() {
+                const container = document.getElementById('nodesContainer');
+                const node2 = document.getElementById('node2');
+                const node3 = document.getElementById('node3');
+                
+                if (node2.nextElementSibling === node3) {
+                    container.insertBefore(node3, node2);
+                } else {
+                    container.insertBefore(node2, node3.nextElementSibling);
+                }
+            }
+            
+            // Назначаем обработчик кнопке
+            document.getElementById('swapButton').addEventListener('click', swapNodes);
+            
+            // Функция для отображения информации о размерах экрана
+            function showScreenInfo() {
+                const width = screen.width;
+                const height = screen.height;
+                const colorDepth = screen.colorDepth;
+                
+                const screenInfo = `
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>Информация о экране</title>
+                        <style>
+                            body {
+                                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                                padding: 20px;
+                                background-color: #f5f7fa;
+                                color: #212529;
+                            }
+                            .info-box {
+                                border: 1px solid #ddd;
+                                padding: 25px;
+                                border-radius: 12px;
+                                background-color: white;
+                                max-width: 500px;
+                                margin: 0 auto;
+                                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+                            }
+                            h1 {
+                                color: #4361ee;
+                                text-align: center;
+                                margin-top: 0;
+                            }
+                            p {
+                                margin-bottom: 12px;
+                                font-size: 16px;
+                            }
+                            strong {
+                                color: #3f37c9;
+                            }
+                            em {
+                                display: block;
+                                margin-top: 20px;
+                                font-size: 14px;
+                                color: #666;
+                                text-align: center;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="info-box">
+                            <h1>Информация о вашем экране</h1>
+                            <p><strong>Ширина экрана:</strong> ${width}px</p>
+                            <p><strong>Высота экрана:</strong> ${height}px</p>
+                            <p><strong>Глубина цвета:</strong> ${colorDepth} бит</p>
+                            <p><em>Это окно открылось автоматически через 3 секунды после загрузки главной страницы.</em></p>
+                        </div>
+                    </body>
+                    </html>
+                `;
+                
+                const features = 'width=600,height=450,resizable=yes,scrollbars=yes';
+                const newWindow = window.open('', '_blank', features);
+                newWindow.document.write(screenInfo);
+                newWindow.document.close();
+            }
+            
+            // Открываем окно с информацией через 3 секунды
+            setTimeout(showScreenInfo, 3000);
+            
+            // Часть 2: Валидация формы
+            const form = document.getElementById('userForm');
+            const validationMessage = document.getElementById('validationMessage');
+            
+            // Отслеживание ввода символов
+            document.getElementById('password').addEventListener('input', function() {
+                const count = this.value.length;
+                const countElement = document.getElementById('passwordCount');
+                countElement.textContent = `${count}/20`;
+                
+                if (count > 20) {
+                    countElement.classList.add('error');
+                } else {
+                    countElement.classList.remove('error');
+                }
+            });
+            
+            document.getElementById('message').addEventListener('input', function() {
+                const count = this.value.length;
+                const countElement = document.getElementById('messageCount');
+                countElement.textContent = `${count}/200`;
+                
+                if (count > 200) {
+                    countElement.classList.add('error');
+                } else {
+                    countElement.classList.remove('error');
+                }
+            });
+            
+            // Валидация формы
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                let isValid = true;
+                
+                // Проверка обязательных полей
+                const requiredFields = ['name', 'email', 'password'];
+                requiredFields.forEach(field => {
+                    const element = document.getElementById(field);
+                    const errorElement = document.getElementById(`${field}Error`);
+                    
+                    if (!element.value.trim()) {
+                        element.classList.add('invalid');
+                        errorElement.style.display = 'block';
+                        isValid = false;
+                    } else {
+                        element.classList.remove('invalid');
+                        errorElement.style.display = 'none';
+                    }
+                });
+                
+                // Проверка email
+                const email = document.getElementById('email');
+                const emailError = document.getElementById('emailError');
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                
+                if (email.value && !emailRegex.test(email.value)) {
+                    email.classList.add('invalid');
+                    emailError.style.display = 'block';
+                    isValid = false;
+                } else if (email.value) {
+                    email.classList.remove('invalid');
+                    emailError.style.display = 'none';
+                }
+                
+                // Проверка телефона
+                const phone = document.getElementById('phone');
+                const phoneError = document.getElementById('phoneError');
+                const phoneRegex = /[\+]\d{1}\s[\(]\d{3}[\)]\s\d{3}[\-]\d{2}[\-]\d{2}/;
+                
+                if (phone.value && !phoneRegex.test(phone.value)) {
+                    phone.classList.add('invalid');
+                    phoneError.style.display = 'block';
+                    isValid = false;
+                } else if (phone.value) {
+                    phone.classList.remove('invalid');
+                    phoneError.style.display = 'none';
+                }
+                
+                // Проверка длины сообщения
+                const message = document.getElementById('message');
+                const messageError = document.getElementById('messageError');
+                
+                if (message.value.length > 200) {
+                    message.classList.add('invalid');
+                    messageError.style.display = 'block';
+                    isValid = false;
+                } else {
+                    message.classList.remove('invalid');
+                    messageError.style.display = 'none';
+                }
+                
+                // Отображение результата валидации
+                if (isValid) {
+                    validationMessage.textContent = 'Форма успешно отправлена! Все данные корректны.';
+                    validationMessage.className = 'validation-message validation-success';
+                    validationMessage.style.display = 'block';
+                    
+                    // Здесь можно отправить форму на сервер
+                    console.log('Форма валидна, отправка данных...');
+                } else {
+                    validationMessage.textContent = 'Пожалуйста, исправьте ошибки в форме. Некоторые поля заполнены некорректно.';
+                    validationMessage.className = 'validation-message validation-error';
+                    validationMessage.style.display = 'block';
+                }
+                
+                // Прокрутка к сообщению
+                validationMessage.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Реальная валидация при вводе
+            form.querySelectorAll('input, textarea, select').forEach(element => {
+                element.addEventListener('input', function() {
+                    if (this.checkValidity()) {
+                        this.classList.remove('invalid');
+                        const errorElement = document.getElementById(`${this.id}Error`);
+                        if (errorElement) errorElement.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

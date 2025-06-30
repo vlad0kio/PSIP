@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Задания 1-5: Date, циклы, массивы, Math и строки</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 8px;
+            margin-top: 30px;
+        }
+        
+        .task-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        input[type="number"],
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        #outputName,
+        #outputArray,
+        #outputFormula,
+        #stringResults {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .input-group div {
+            flex: 1;
+        }
+        
+    </style>
+    <script src="mathFunctions.js"></script>
+    <script>
+        function showCurrentHour() {
+            const now = new Date();
+            const currentHour = now.getHours();
+            alert(`Текущий час: ${currentHour}`);
+        }
+    </script>
+</head>
+<body>
+    <h1>Синтаксис и операторы JS, встроенные объекты, способы внедрения скрпитов</h1>
+    
+    <!-- Задание 1 -->
+    <div class="task-section">
+        <h2>Задание 1: Текущий час</h2>
+        <button onclick="showCurrentHour()">Показать текущий час</button>
+    </div>
+
+    <!-- Задание 2 -->
+    <div class="task-section">
+        <h2>Задание 2: Вывод ФИО</h2>
+        <label for="variantNumber">Введите номер варианта (n):</label>
+        <input type="number" id="variantNumber" min="1" value="1">
+        <button onclick="printFullName()">Вывести ФИО</button>
+        <div id="outputName"></div>
+    </div>
+
+    <!-- Задание 3 -->
+    <div class="task-section">
+        <h2>Задание 3: Переворот массива</h2>
+        <label for="arrayInput">Введите массив (элементы через запятую):</label>
+        <input type="text" id="arrayInput" placeholder="Например: 1, 2, 3, 4">
+        <button onclick="reverseUserArray()">Перевернуть массив</button>
+        <div id="outputArray"></div>
+    </div>
+
+    <!-- Задание 4 -->
+    <div class="task-section">
+        <h2>Задание 4: Работа с объектом Math</h2>
+        <div class="input-group">
+            <div>
+                <label for="inputA">Введите значение a:</label>
+                <input type="number" id="inputA" step="any">
+            </div>
+            <div>
+                <label for="inputB">Введите значение b:</label>
+                <input type="number" id="inputB" step="any">
+            </div>
+        </div>
+        <button onclick="calculateFormula()">Вычислить</button>
+        <div id="outputFormula"></div>
+    </div>
+
+    <!-- Задание 5 -->
+    <div class="task-section">
+        <h2>Задание 5: Работа со строками</h2>
+        <div id="stringOutput">
+            <p id="s1Value">S1: Уланович</p>
+            <p id="s2Value">S2: АДРЕС</p>
+            <div id="stringResults"></div>
+        </div>
+        <button onclick="stringOperations()">Выполнить операции со строками</button>
+    </div>
+
+    <script>
+        // Задание 2
+        function printFullName() {
+            const n = parseInt(document.getElementById('variantNumber').value);
+            const fullName = "Уланович Владислав";
+            const repetitions = n;
+            const outputDiv = document.getElementById('outputName');
+            
+            outputDiv.innerHTML = '';
+            for (let i = 0; i < repetitions; i++) {
+                outputDiv.innerHTML += `<p>${i + 1}. ${fullName}</p>`;
+            }
+        }
+
+        // Задание 3
+        function reverseUserArray() {
+            const input = document.getElementById('arrayInput').value;
+            const originalArray = input.split(',').map(item => item.trim());
+            const reversedArray = [...originalArray].reverse();
+            
+            const outputDiv = document.getElementById('outputArray');
+            outputDiv.innerHTML = `
+                <p><strong>Исходный массив:</strong> [${originalArray.join(', ')}]</p>
+                <p><strong>Перевёрнутый массив:</strong> [${reversedArray.join(', ')}]</p>
+            `;
+        }
+    </script>
+    <script src="scripts.js"></script>
+</body>
+</html>

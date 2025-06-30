@@ -1,0 +1,7 @@
+body {
+  background-color: #e2ade6; /* Светлоголубой цвет */
+  color: #000; /* Цвет текста (по желанию) */
+  font-family: Arial, sans-serif; /* Шрифт (по желанию) */
+  margin: 0;
+  padding: 20px;
+}

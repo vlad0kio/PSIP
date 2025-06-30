@@ -1,0 +1,80 @@
+* {
+  color: black;
+}
+
+.container-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-space {
+  display: flex;
+  justify-content: space-between;
+}
+
+.container-bottom{
+  display: flex;
+}
+
+.container-left {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.container-right{
+  display: flex;
+  justify-content: right;
+}
+
+.container-row{
+  display: flex;
+  flex-direction: row;
+}
+
+.container-col{
+  display: flex;
+  flex-direction: column;
+}
+
+.title{
+  font-size: 2vw;
+  font-family: 'Georgia', serif;
+}
+
+.description{
+  font-size: 1vw;
+  font-weight: bold;
+  font-family: 'Tahoma', sans-serif;
+}
+
+.smol{
+  margin: 4vw;
+  height: 16vw;
+}
+
+.table-bordered{
+  border: 2px solid black;;
+}
+
+.table-bordered th, .table-bordered td {
+  border: 2px solid black;
+}
+
+a {
+  font-size: 2vw;
+  color: #3498db; /* Цвет ссылки */
+  text-decoration: none; /* Убираем подчеркивание */
+  transition: color 0.3s ease, text-shadow 0.3s ease; /* Плавный переход для цвета и тени текста */
+}
+
+a:hover {
+  color: #2980b9; /* Цвет ссылки при наведении */
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Эффект тени текста при наведении */
+}
+
+a:focus {
+  outline: none; /* Убираем стандартный контур при фокусе */
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.7); /* Эффект тени при фокусе */
+}

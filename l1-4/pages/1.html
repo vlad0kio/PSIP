@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Page description">
+    <meta name="keywords" content="interesting, wow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/form.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&family=Open+Sans:wght@400&family=Lora:wght@400&display=swap" rel="stylesheet">
+    <title>Всё подряд</title>
+
+    <style>
+        .bold {
+            font-weight: bold;
+        }
+        .italic {
+            font-style: italic;
+        }
+        .underline {
+            text-decoration: underline;
+        }
+        .strikethrough {
+            text-decoration: line-through;
+        }
+        .small {
+            font-size: smaller;
+        }
+        .red {
+            color: red;
+        }
+        .large {
+            font-size: 20px;
+        }
+        /* Стили для первой таблицы */
+        .table-1 {
+            border: 8px solid #007BFF;
+        }
+        .table-1 th {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px;
+        }
+        .table-1 td {
+            border: 1px solid #007BFF;
+            padding: 10px;
+            text-align: center;
+        }
+
+        /* Стили для второй таблицы */
+        .table-2 {
+            border: 6px dotted #28A745;
+        }
+        .table-2 th {
+            background-color: #28A745;
+            color: white;
+            padding: 10px;
+        }
+        .table-2 td {
+            border: 1px solid #28A745;
+            padding: 10px;
+            text-align: center;
+            background-color: #F8F9FA;
+        }
+        .table-2 td[rowspan] {
+            background-color: #E2E6EA;
+        }
+        ul li{
+            color: magenta;
+        }
+        ol > li{
+            color: goldenrod;
+        }
+        /* Стили для третьей таблицы */
+        .table-3 {
+            border: 2px solid #FFC107;
+        }
+        .table-3 th {
+            background-color: #FFC107;
+            color: white;
+            padding: 10px;
+        }
+        .table-3 td {
+            border: 1px dashed #FFC107;
+            padding: 10px;
+            text-align: center;
+        }
+        .table-3 td[rowspan] {
+            background-color: #FFEBA1;
+        }
+
+        p::first-letter{
+            color: green;
+        }
+
+        p#roboto {
+            font-family: 'Roboto', sans-serif;
+        }
+        #open-sans {
+            font-family: 'Open Sans', sans-serif;
+        }
+        #lora {
+            font-family: 'Lora', serif;
+        }
+    </style>
+
+    <style>
+        @import url("../css/bg.css");
+    </style>
+</head>
+<body>
+    <div class="container-col">
+        <a href="#video">Перейти к якорю</a>
+        <a href="http://ggpk.by/Raspisanie/Files/PZT.html">Расписание ПЗТ</a>
+        <a href="../archieves/audio.rar">Download music</a>
+    </div>
+    <br><br>
+    
+    <p>js код</p>
+    <pre>
+function helloWorld() {
+    console.log("Привет, мир!");
+}
+
+helloWorld();
+    </pre>
+    <br><br>
+
+    <h2>Пример форматирования текста</h2>
+    <p class="bold">Жирный текст</p>
+    <p class="italic">Курсивный текст</p>
+    <p class="underline">Подчеркнутый текст</p>
+    <p class="strikethrough">Зачеркнутый текст</p>
+    <p class="small" id="roboto">Э Small text</p>
+    <p class="red" id="open-sans">Э Red text</p>
+    <p class="large" id="lora">Э Big text</p>
+    <br><br>
+
+    H<sub>2</sub>O
+
+    <br><br>
+
+    <h2>Пример таблиц</h2>
+
+    <table class="table-bordered table-1">
+        <tr>
+            <th colspan="2">Заголовок 1</th>
+            <th>Заголовок 2</th>
+        </tr>
+        <tr>
+            <td>Ячейка 1</td>
+            <td>Ячейка 2</td>
+            <td>Ячейка 3</td>
+        </tr>
+        <tr>
+            <td colspan="2">Объединенная ячейка</td>
+            <td>Ячейка 4</td>
+        </tr>
+    </table>
+    
+    <table class="table-bordered table-2">
+        <tr>
+            <th>Заголовок A</th>
+            <th>Заголовок B</th>
+        </tr>
+        <tr>
+            <td rowspan="2">Ячейка A1</td>
+            <td>Ячейка B1</td>
+        </tr>
+        <tr>
+            <td>Ячейка B2</td>
+        </tr>
+    </table>
+    
+    <table class="table-bordered table-3">
+        <tr>
+            <th>Группа 1</th>
+            <th>Группа 2</th>
+        </tr>
+        <tr>
+            <td>Ячейка 1</td>
+            <td>Ячейка 2</td>
+        </tr>
+        <tr>
+            <td>Ячейка 3</td>
+            <td rowspan="2">Объединенная ячейка</td>
+        </tr>
+        <tr>
+            <td>Ячейка 4</td>
+        </tr>
+    </table>
+    
+    <br><br>
+
+    <!-- Пример списков -->
+
+    <h3>Нумерованный список с буквами</h3>
+    <ol type="A">
+        <li>Первый элемент</li>
+        <li>Второй элемент</li>
+        <li>Третий элемент</li>
+    </ol>
+
+    <h3>Ненумерованный список с изображениями</h3>
+    <ul style="list-style-type: none;">
+        <li><img src="../media/icon.png" alt="Изображение 1" style="width:20px; height:20px;"> Первый элемент</li>
+        <li><img src="../media/icon.png" alt="Изображение 2" style="width:20px; height:20px;"> Второй элемент</li>
+        <li><img src="../media/icon.png" alt="Изображение 3" style="width:20px; height:20px;"> Третий элемент</li>
+    </ul>
+
+    <h3>Маркированные списки</h3>
+    <ul style="list-style-type: square;">
+      <li>Элемент 1</li>
+      <li>Элемент 2</li>
+      <li>Элемент 3</li>
+    </ul>
+    
+    <ul style="list-style-type: circle;">
+        <li>Элемент 1</li>
+        <li>Элемент 2</li>
+        <li>Элемент 3</li>
+    </ul>
+
+    <ul>
+      <li>Первый элемент
+          <ul>
+              <li>Вложенный элемент 1</li>
+              <li>Вложенный элемент 2
+                  <ul>
+                      <li>Вложенный элемент 2.1</li>
+                      <li>Вложенный элемент 2.2</li>
+                  </ul>
+              </li>
+              <li>Вложенный элемент 3</li>
+          </ul>
+      </li>
+      <li>Второй элемент</li>
+      <li>Третий элемент</li>
+    </ul>
+
+    <h3>Список определений с цифрами</h3>
+    <dl>
+        <dt>1. Термин 1</dt>
+        <dd>Определение 1</dd>
+        <dt>2. Термин 2</dt>
+        <dd>Определение 2</dd>
+    </dl>
+
+    <br><br>
+
+    <video id="video" class="smol" controls preload="metadata" poster="../media/tank.jpg">
+        <source src="../media/2vid.mp4" type="video/mp4">
+        Ваш браузер не поддерживает видео.
+    </video>
+    
+    <br><br>
+
+    <form action="/submit" method="post">
+        <label for="name">Имя:</label><br>
+        <input type="text" id="name" name="name" placeholder="Введите ваше имя" required><br><br>
+
+        <label for="email">Электронная почта:</label><br>
+        <input type="email" id="email" name="email" placeholder="example@mail.com" required><br><br>
+
+        <label for="age">Возраст:</label><br>
+        <input type="number" id="age" name="age" min="1" max="120" placeholder="Ваш возраст"><br><br>
+
+        <label for="gender">Пол:</label><br>
+        <select id="gender" name="gender" required>
+            <option value="">Выберите пол</option>
+            <option value="male">Мужской</option>
+            <option value="female">Женский</option>
+            <option value="other">Другой</option>
+        </select><br><br>
+
+        <label>Интересы:</label><br>
+        <input type="checkbox" id="sports" name="interests" value="sports">
+        <label for="sports">Спорт</label><br>
+        <input type="checkbox" id="music" name="interests" value="music">
+        <label for="music">Музыка</label><br>
+        <input type="checkbox" id="art" name="interests" value="art">
+        <label for="art">Искусство</label><br><br>
+
+        <label for="message">Сообщение:</label><br>
+        <textarea id="message" name="message" rows="4" placeholder="Введите ваше сообщение" required></textarea><br><br>
+        
+        <label for="phone">Телефон:</label>
+        <input type="tel" id="phone" name="phone" required>
+        <br><br>
+
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" name="password" required>
+        <br><br>
+
+        <label>Выберите опцию:</label><br>
+        <input type="radio" id="option1" name="options" value="option1">
+        <label for="option1">Опция 1</label><br>
+
+        <input type="radio" id="option2" name="options" value="option2">
+        <label for="option2">Опция 2</label><br><br>
+
+        <label for="file">Выбор файла:</label>
+        <input type="file" id="file" name="file" required><br><br>
+        
+        <label for="date">Выберите дату:</label>
+        <input type="date" id="date" name="date" required><br><br>
+
+        <input type="reset" value="Сбросить">
+        <input type="submit" value="Отправить">
+    </form>
+
+    <div class="container-center" style="position: fixed; bottom: 0.2vw; left: 50%; transform: translateX(-50%); z-index: 1000;">
+        <div class="container-row container-space" style="gap: 2vw;">
+            <a href="../index.html">&lt;</a>
+            <a href="">></a>
+        </div>
+    </div>
+
+    <script>
+      const phoneInput = document.getElementById('phone');
+
+      phoneInput.addEventListener('input', function(e) {
+          let value = e.target.value.replace(/\D/g, ''); // Remove non-digit characters
+          if (value.length > 10) value = value.slice(0, 12); // Limit length to 10 digits
+
+          const formattedValue = value.replace(/(\d{3})(\d{2})(\d{3})(\d{2})(\d{2})/, (match, p1, p2, p3, p4, p5) => {
+              return `+${p1} (${p2}) ${p3}-${p4}-${p5}`;
+          });
+
+          e.target.value = formattedValue;
+      });
+  </script>
+</body>
+</html>

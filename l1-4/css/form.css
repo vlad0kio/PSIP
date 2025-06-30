@@ -1,0 +1,72 @@
+form {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: auto;
+}
+
+label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="tel"],
+input[type="password"],
+select,
+textarea,
+input[type="file"],
+input[type="date"] {
+  width: 95%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  transition: border-color 0.3s;
+}
+
+input[type="text"]:invalid,
+input[type="email"]:invalid,
+input[type="number"]:invalid,
+input[type="tel"]:invalid,
+input[type="password"]:invalid,
+select:invalid,
+textarea:invalid,
+input[type="file"]:invalid,
+input[type="date"]:invalid {
+  border-color: red;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  margin-right: 10px;
+}
+
+input[type="submit"],
+input[type="reset"] {
+  background-color: #5cb85c;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-right: 10px;
+}
+
+input[type="submit"]:hover,
+input[type="reset"]:hover {
+  background-color: #4cae4c;
+}
+
+input[type="reset"] {
+  background-color: #d9534f;
+}
+
+input[type="reset"]:hover {
+  background-color: #c9302c;
+}

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Практикум по JavaScript</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --info: #4895ef;
+            --warning: #f8961e;
+            --danger: #ef233c;
+            --text: #2b2d42;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.2);
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-top: 0;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid #eee;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        h3 {
+            color: var(--secondary);
+            margin: 1.8rem 0 1rem;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--info));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--info), var(--primary));
+            transform: translateY(-3px);
+            box-shadow: 0 5px 12px rgba(67, 97, 238, 0.3);
+        }
+        
+        .btn-secondary {
+            background-color: var(--light);
+            color: var(--text);
+            border: 1px solid #dee2e6;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e9ecef;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-accent {
+            background: linear-gradient(135deg, var(--accent), var(--warning));
+            color: white;
+        }
+        
+        .btn-accent:hover {
+            background: linear-gradient(135deg, var(--warning), var(--accent));
+            transform: translateY(-3px);
+            box-shadow: 0 5px 12px rgba(248, 37, 133, 0.3);
+        }
+        
+        .result {
+            padding: 1rem;
+            margin: 1rem 0;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--success);
+            border-radius: 6px;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 0.95rem;
+            overflow-x: auto;
+        }
+        
+        .code {
+            background-color: #2b2d42;
+            color: #f8f9fa;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .link {
+            color: var(--info);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s;
+            border-bottom: 1px dashed currentColor;
+        }
+        
+        .link:hover {
+            color: var(--primary);
+            border-bottom-style: solid;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.8rem;
+            margin: 2rem 0;
+        }
+        
+        .sub-card {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--info);
+            transition: transform 0.3s ease;
+        }
+        
+        .sub-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .note {
+            background-color: #fff9db;
+            padding: 1rem;
+            border-left: 4px solid var(--warning);
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem;
+            color: #6c757d;
+            font-size: 0.95rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Практикум JavaScript</h1>
+            <p class="subtitle">Интерактивное руководство с примерами и упражнениями</p>
+        </header>
+
+        <div class="card" id="section1">
+            <h2>Подключение JavaScript</h2>
+            <p>JavaScript можно подключить к HTML-документу несколькими способами, каждый из которых имеет свои особенности применения.</p>
+            
+            <div class="grid">
+                <div class="sub-card">
+                    <h3>Встроенный скрипт</h3>
+                    <p>Код выполняется непосредственно в атрибуте HTML-элемента:</p>
+                    <button class="btn btn-primary" onclick="alert('Это встроенный обработчик события!')">Нажмите</button>
+                    <div class="note">
+                        <strong>Примечание:</strong> Не рекомендуется для сложной логики, так как затрудняет поддержку кода.
+                    </div>
+                </div>
+                
+                <div class="sub-card">
+                    <h3>Внутренний скрипт</h3>
+                    <p>Код размещается в тегах <span class="code">&lt;script&gt;</span> в теле HTML-документа:</p>
+                    <button class="btn btn-primary" onclick="showWelcomeMessage()">Показать приветствие</button>
+                </div>
+                
+                <div class="sub-card">
+                    <h3>Внешний скрипт</h3>
+                    <p>Код выносится в отдельный файл и подключается через атрибут <span class="code">src</span>:</p>
+                    <button class="btn btn-primary" onclick="showExternalFunction()">Вызвать внешнюю функцию</button>
+                </div>
+                
+                <div class="sub-card">
+                    <h3>JavaScript в ссылках</h3>
+                    <p>Использование псевдопротокола <span class="code">javascript:</span> в атрибуте <span class="code">href</span>:</p>
+                    <a href="javascript:void(0)" onclick="showLinkMessage()" class="btn btn-secondary">Выполнить код</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" id="section2">
+            <h2>Операторы и управляющие конструкции</h2>
+            <p>JavaScript предоставляет различные операторы для управления потоком выполнения программы.</p>
+            
+            <div class="grid">
+                <div class="sub-card">
+                    <h3>Условные операторы</h3>
+                    <p><span class="code">if-else</span> и <span class="code">switch</span> для ветвления логики:</p>
+                    <button class="btn btn-accent" onclick="checkUserRole()">Проверить роль</button>
+                    <button class="btn btn-accent" onclick="getDayDescription()">День недели</button>
+                </div>
+                
+                <div class="sub-card">
+                    <h3>Циклы</h3>
+                    <p>Различные виды циклов для повторения операций:</p>
+                    <button class="btn btn-accent" onclick="runNumberSequence()">Последовательность</button>
+                    <div class="result" id="loopResult"></div>
+                </div>
+                
+                <div class="sub-card">
+                    <h3>Управление циклами</h3>
+                    <p><span class="code">break</span> и <span class="code">continue</span> для контроля выполнения:</p>
+                    <button class="btn btn-accent" onclick="findFirstEven()">Найти четное</button>
+                    <button class="btn btn-accent" onclick="skipOdds()">Пропустить нечетные</button>
+                    <div class="result" id="controlResult"></div>
+                </div>
+                
+                <div class="sub-card">
+                    <h3>Функции и return</h3>
+                    <p>Создание функций и возврат значений:</p>
+                    <button class="btn btn-accent" onclick="calculatePower()">Возвести в степень</button>
+                    <div class="result" id="functionResult"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" id="section3">
+            <h2>Взаимодействие с пользователем</h2>
+            <p>JavaScript предоставляет несколько способов взаимодействия через диалоговые окна.</p>
+            
+            <div class="grid">
+                <div class="sub-card">
+                    <h3>alert()</h3>
+                    <p>Простое модальное окно с сообщением:</p>
+                    <button class="btn btn-secondary" onclick="showSystemAlert()">Показать alert</button>
+                </div>
+                
+                <div class="sub-card">
+                    <h3>confirm()</h3>
+                    <p>Окно с подтверждением и двумя кнопками:</p>
+                    <button class="btn btn-secondary" onclick="askForConfirmation()">Показать confirm</button>
+                    <div class="result" id="confirmOutput"></div>
+                </div>
+                
+                <div class="sub-card">
+                    <h3>prompt()</h3>
+                    <p>Окно с полем для ввода текста:</p>
+                    <button class="btn btn-secondary" onclick="askForName()">Показать prompt</button>
+                    <div class="result" id="promptOutput"></div>
+                </div>
+                
+                <div class="sub-card">
+                    <h3>Комбинированный пример</h3>
+                    <p>Использование всех методов вместе:</p>
+                    <button class="btn btn-secondary" onclick="runUserSurvey()">Опрос пользователя</button>
+                    <div class="result" id="surveyOutput"></div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Практическое руководство по JavaScript &copy; 2023 | <a href="#" class="link" onclick="showCredits()">Авторы и источники</a></p>
+        </footer>
+    </div>
+
+    <!-- Внутренний JavaScript -->
+    <script>
+        // 1.2 Внутренний скрипт
+        function showWelcomeMessage() {
+            const hour = new Date().getHours();
+            let greeting;
+            
+            if (hour < 6) greeting = "Доброй ночи!";
+            else if (hour < 12) greeting = "Доброе утро!";
+            else if (hour < 18) greeting = "Добрый день!";
+            else greeting = "Добрый вечер!";
+            
+            alert(`${greeting} Это внутренний JavaScript!`);
+        }
+
+        // 1.4 JavaScript в ссылках
+        function showLinkMessage() {
+            alert("Код выполнен из обработчика события ссылки!");
+        }
+
+        // 2.1 Условные операторы
+        function checkUserRole() {
+            const roles = {
+                'admin': 'Администратор',
+                'editor': 'Редактор',
+                'user': 'Пользователь'
+            };
+            
+            const role = prompt("Введите вашу роль (admin, editor, user):");
+            
+            if (role in roles) {
+                alert(`Ваш статус: ${roles[role]}`);
+            } else {
+                alert("Роль не распознана!");
+            }
+        }
+
+        function getDayDescription() {
+            const dayNumber = parseInt(prompt("Введите номер дня недели (1-7):"));
+            let dayName, isWeekend;
+            
+            switch(dayNumber) {
+                case 1: dayName = "Понедельник"; isWeekend = false; break;
+                case 2: dayName = "Вторник"; isWeekend = false; break;
+                case 3: dayName = "Среда"; isWeekend = false; break;
+                case 4: dayName = "Четверг"; isWeekend = false; break;
+                case 5: dayName = "Пятница"; isWeekend = false; break;
+                case 6: dayName = "Суббота"; isWeekend = true; break;
+                case 7: dayName = "Воскресенье"; isWeekend = true; break;
+                default: dayName = "Неизвестный день"; isWeekend = null;
+            }
+            
+            const message = isWeekend === null 
+                ? "Некорректный ввод" 
+                : `${dayName} - это ${isWeekend ? 'выходной' : 'рабочий'} день`;
+            
+            alert(message);
+        }
+
+        // 2.2 Циклы
+        function runNumberSequence() {
+            let sequence = "";
+            const count = parseInt(prompt("Сколько чисел вывести? (макс. 10)", 5)) || 5;
+            
+            for (let i = 1; i <= Math.min(count, 10); i++) {
+                sequence += `${i} `;
+                
+                // Добавляем перенос каждые 5 чисел
+                if (i % 5 === 0) sequence += "\n";
+            }
+            
+            document.getElementById("loopResult").textContent = sequence || "Нет чисел для отображения";
+        }
+
+        // 2.3 Управление циклами
+        function findFirstEven() {
+            const numbers = [1, 3, 5, 8, 9, 10, 12];
+            let result = "Первое четное число: ";
+            
+            for (let num of numbers) {
+                if (num % 2 === 0) {
+                    result += num;
+                    break;
+                }
+            }
+            
+            document.getElementById("controlResult").textContent = result;
+        }
+
+        function skipOdds() {
+            let result = "Четные числа: ";
+            const limit = parseInt(prompt("До какого числа искать? (макс. 20)", 10)) || 10;
+            
+            for (let i = 1; i <= Math.min(limit, 20); i++) {
+                if (i % 2 !== 0) continue;
+                result += `${i} `;
+            }
+            
+            document.getElementById("controlResult").textContent = result;
+        }
+
+        // 2.4 Функции
+        function calculatePower() {
+            const base = parseFloat(prompt("Введите число:"));
+            const exponent = parseInt(prompt("Введите степень (целое число):")) || 2;
+            
+            const result = power(base, exponent);
+            document.getElementById("functionResult").textContent = 
+                `${base} в степени ${exponent} = ${result}`;
+        }
+
+        function power(base, exponent = 2) {
+            return Math.pow(base, exponent);
+        }
+
+        // 3.1 Диалоговые окна
+        function showSystemAlert() {
+            alert("⚠️ Это важное системное сообщение!\n\nПожалуйста, обратите на него внимание.");
+        }
+
+        function askForConfirmation() {
+            const isConfirmed = confirm("Вы действительно хотите удалить этот элемент?\nЭто действие нельзя отменить.");
+            document.getElementById("confirmOutput").textContent = 
+                `Пользователь выбрал: ${isConfirmed ? "Удалить" : "Отмена"}`;
+        }
+
+        function askForName() {
+            const userName = prompt("Пожалуйста, представьтесь:", "Гость");
+            const greeting = userName 
+                ? `👋 Приветствуем, ${userName}!` 
+                : "👋 Приветствуем, Гость!";
+            
+            document.getElementById("promptOutput").textContent = greeting;
+        }
+
+        function runUserSurvey() {
+            const name = prompt("Как вас зовут?") || "Аноним";
+            const age = parseInt(prompt("Сколько вам лет?")) || 0;
+            const isProgrammer = confirm("Вы программист?");
+            
+            let message = `Данные опроса:\n\nИмя: ${name}\nВозраст: ${age}\n`;
+            message += isProgrammer 
+                ? "Род занятий: программист\n\nСпасибо за участие!" 
+                : "Род занятий: не программист\n\nСпасибо за участие!";
+            
+            document.getElementById("surveyOutput").textContent = message;
+        }
+
+        function showCredits() {
+            alert("Это учебное пособие было создано для демонстрации возможностей JavaScript.\n\nИспользуемые технологии:\n- HTML5\n- CSS3\n- JavaScript ES6+");
+        }
+    </script>
+
+    <!-- Внешний JavaScript -->
+    <script src="external.js"></script>
+</body>
+</html>

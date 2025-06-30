@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Flex Layout</title>
+    <style>
+        /* Дополнительные стили для валидации */
+        .error {
+            border-color: #ff4444 !important;
+        }
+        .error-message {
+            color: #ff4444;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+        .valid {
+            border-color: #00aa00 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="item item1">1</div>
+        <div class="item item2">2</div>
+        <div class="item item3">3</div>
+        <div class="item item4">4</div>
+        <div class="item item5">5</div>
+        <div class="item item6">6</div>
+        <div class="item item7">7</div>
+        <div class="item item8">8</div>
+        <div class="item item9">9</div>
+        <div class="item item10">
+            <div class="form-container">
+                <h1>Бесплатно зарегистрироваться</h1>
+                
+                <div class="user-type">
+                    <label class="radio-option">
+                        <input type="radio" name="user_type" value="freelancer" checked>
+                        <span>Фрилансер</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="user_type" value="employer">
+                        <span>Работодатель</span>
+                    </label>
+                </div>
+                
+                <hr>
+                
+                <div class="form-row">
+                    <div class="form-label">E-mail</div>
+                    <div class="form-input">
+                        <input type="email" id="email" placeholder="Введите ваш e-mail" required>
+                        <div class="error-message" id="email-error">Пожалуйста, введите корректный email</div>
+                    </div>
+                </div>
+                <div class="hint">Нигде не публикуется</div>
+                
+                <hr>
+                
+                <div class="form-row">
+                    <div class="form-label">Логин</div>
+                    <div class="form-input">
+                        <input type="text" id="username" placeholder="Придумайте логин" required>
+                        <div class="error-message" id="username-error">Логин должен содержать 3-15 символов: латинские буквы, цифры, _ или -</div>
+                    </div>
+                </div>
+                <div class="hint">3—15 символов: латинские буквы, цифры, знак подчёркивания (_) и дефис (-)</div>
+                
+                <hr>
+                
+                <div class="form-row">
+                    <div class="form-label">Пароль</div>
+                    <div class="form-input">
+                        <input type="password" id="password" placeholder="Придумайте пароль" required>
+                        <div class="error-message" id="password-error">Пароль должен содержать 6-24 символов: латинские буквы, цифры и _</div>
+                    </div>
+                </div>
+                <div class="hint">От 6 до 24 символов. Допустимы латинские буквы, цифры и знак подчёркивания (_)</div>
+                
+                <hr>
+                
+                <div class="form-row">
+                    <div class="form-label">Капча</div>
+                    <div class="captcha-group">
+                        <div class="captcha-row">
+                            <img src="captcha.jpg" alt="Капча" class="captcha-image">
+                            <div class="captcha-input">
+                                <input type="text" id="captcha" placeholder="Введите код" required>
+                                <div class="error-message" id="captcha-error">Пожалуйста, введите код с картинки</div>
+                            </div>
+                        </div>
+                        <a href="#" class="refresh-link">Обновить картинку</a>
+                    </div>
+                </div>
+                
+                <div class="submit-container">
+                    <button class="submit-btn" id="submit-btn">Зарегистрироваться</button>
+                </div>
+                
+                <div class="terms">
+                    Нажимая на кнопку «Зарегистрироваться», я соглашаюсь с <a href="#" class="terms-link">публичной офертой ООО «Ваан» и правилами сайта</a>.
+                </div>
+            </div>
+
+            <div class="product-card">
+                <!-- Иконка избранного -->
+                <img src="https://cdn-icons-png.flaticon.com/512/1077/1077035.png" alt="Добавить в избранное" class="favorite-icon">
+                
+                <!-- Изображение товара -->
+                <div class="product-image-container">
+                    <img src="watches.png" alt="Фитнес-браслет HUAWEI Band 7" class="product-image">
+                </div>
+                
+                <div class="price">156,13 BYN</div>
+                <div class="product-name">Фитнес-браслет HUAWEI Band 7, розовый</div>
+                <div class="rating">
+                    <span class="rating-stars">5.0 ○ 5</span>
+                    <span class="rating-value">· Оригинал</span>
+                </div>
+                <button class="add-to-cart">В корзину</button>
+                <div class="delivery-info">
+                    <span>17 марта</span>
+                    <span class="marketplace">Ozon</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const submitBtn = document.getElementById('submit-btn');
+            const emailInput = document.getElementById('email');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const captchaInput = document.getElementById('captcha');
+            
+            // Регулярные выражения для валидации
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const usernameRegex = /^[a-zA-Z0-9_-]{3,15}$/;
+            const passwordRegex = /^[a-zA-Z0-9_]{6,24}$/;
+            
+            // Функция для проверки поля
+            function validateField(input, regex, errorElement, errorMessage) {
+                const value = input.value.trim();
+                
+                if (value === '') {
+                    input.classList.add('error');
+                    input.classList.remove('valid');
+                    errorElement.textContent = 'Это поле обязательно для заполнения';
+                    errorElement.style.display = 'block';
+                    return false;
+                }
+                
+                if (!regex.test(value)) {
+                    input.classList.add('error');
+                    input.classList.remove('valid');
+                    errorElement.textContent = errorMessage;
+                    errorElement.style.display = 'block';
+                    return false;
+                }
+                
+                input.classList.remove('error');
+                input.classList.add('valid');
+                errorElement.style.display = 'none';
+                return true;
+            }
+            
+            // Валидация при потере фокуса
+            emailInput.addEventListener('blur', function() {
+                validateField(
+                    emailInput, 
+                    emailRegex, 
+                    document.getElementById('email-error'), 
+                    'Пожалуйста, введите корректный email'
+                );
+            });
+            
+            usernameInput.addEventListener('blur', function() {
+                validateField(
+                    usernameInput, 
+                    usernameRegex, 
+                    document.getElementById('username-error'), 
+                    'Логин должен содержать 3-15 символов: латинские буквы, цифры, _ или -'
+                );
+            });
+            
+            passwordInput.addEventListener('blur', function() {
+                validateField(
+                    passwordInput, 
+                    passwordRegex, 
+                    document.getElementById('password-error'), 
+                    'Пароль должен содержать 6-24 символов: латинские буквы, цифры и _'
+                );
+            });
+            
+            captchaInput.addEventListener('blur', function() {
+                const value = captchaInput.value.trim();
+                const errorElement = document.getElementById('captcha-error');
+                
+                if (value === '') {
+                    captchaInput.classList.add('error');
+                    captchaInput.classList.remove('valid');
+                    errorElement.textContent = 'Это поле обязательно для заполнения';
+                    errorElement.style.display = 'block';
+                } else {
+                    captchaInput.classList.remove('error');
+                    captchaInput.classList.add('valid');
+                    errorElement.style.display = 'none';
+                }
+            });
+            
+            // Валидация при отправке формы
+            submitBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                let isValid = true;
+                
+                // Проверяем все поля
+                if (!validateField(
+                    emailInput, 
+                    emailRegex, 
+                    document.getElementById('email-error'), 
+                    'Пожалуйста, введите корректный email'
+                )) isValid = false;
+                
+                if (!validateField(
+                    usernameInput, 
+                    usernameRegex, 
+                    document.getElementById('username-error'), 
+                    'Логин должен содержать 3-15 символов: латинские буквы, цифры, _ или -'
+                )) isValid = false;
+                
+                if (!validateField(
+                    passwordInput, 
+                    passwordRegex, 
+                    document.getElementById('password-error'), 
+                    'Пароль должен содержать 6-24 символов: латинские буквы, цифры и _'
+                )) isValid = false;
+                
+                const captchaValue = captchaInput.value.trim();
+                const captchaError = document.getElementById('captcha-error');
+                if (captchaValue === '') {
+                    captchaInput.classList.add('error');
+                    captchaInput.classList.remove('valid');
+                    captchaError.textContent = 'Это поле обязательно для заполнения';
+                    captchaError.style.display = 'block';
+                    isValid = false;
+                } else {
+                    captchaInput.classList.remove('error');
+                    captchaInput.classList.add('valid');
+                    captchaError.style.display = 'none';
+                }
+                
+                // Если все валидно, можно отправить форму
+                if (isValid) {
+                    alert('Форма успешно отправлена!');
+                    // form.submit(); // Раскомментировать для реальной отправки
+                } else {
+                    // Прокрутка к первому ошибочному полю
+                    const firstError = document.querySelector('.error');
+                    if (firstError) {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

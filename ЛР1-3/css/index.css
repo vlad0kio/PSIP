@@ -1,0 +1,62 @@
+.container-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-space {
+  display: flex;
+  justify-content: space-between;
+}
+
+.container-bottom{
+  display: flex;
+  justify-content: bottom;
+  align-items: bottom;
+}
+
+.container-left {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.container-right{
+  display: flex;
+  justify-content: right;
+  align-items: right;
+}
+
+.container-row{
+  display: flex;
+  flex-direction: row;
+}
+
+.container-col{
+  display: flex;
+  flex-direction: column;
+}
+
+.title{
+  font-size: 2vw;
+  font-family: 'Georgia', serif;
+}
+
+.description{
+  font-size: 1vw;
+  font-weight: bold;
+  font-family: 'Tahoma', sans-serif;
+}
+
+.smol{
+  margin: 4vw;
+  height: 16vw;
+}
+
+.table-bordered{
+  border: 2px solid black;;
+}
+
+.table-bordered th, .table-bordered td {
+  border: 2px solid black;
+}
