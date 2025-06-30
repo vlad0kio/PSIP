@@ -1,0 +1,1165 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: PFDinDisplayProLight, sans-serif;
+
+}
+
+body {
+  overflow-x: hidden;
+  color: #333;
+}
+
+.free-section-text-position {
+  width: 1290px;
+  height: 487px;
+  position: absolute;
+  left: 0px;
+  top: -73px;
+}
+
+.input-btns {
+  background-color: #F8F9FA;
+  border-color: #E4E5E6;
+  border-radius: 6px;
+  width: 350px;
+  height: 60px;
+}
+
+.icon-input {
+  padding-left: 30px; /* Отступ для иконки */
+  background-image: url(media/Rectangle2);
+  background-repeat: no-repeat;
+  background-position: 20px center;
+  background-size: 20px;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+/* Черная полоса сверху */
+.top-bar {
+  width: 100%;
+  height: 10px;
+  background-color: #000;
+}
+
+/* Шапка */
+header {
+  position: fixed;
+  align-items: center;
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  z-index: 5;
+  width: 100%;
+  height: 130px;
+  background-color: #F8F9FA;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  padding: 0 0px;
+}
+
+.logo {
+  width: 153.75px;
+  height: 60px;
+}
+
+nav {
+  display: flex;
+  gap: 20px;
+}
+
+.hero-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(to right, #80cbf0, #DCB658);
+}
+
+.nav-btn {
+  margin-right: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s;
+}
+
+.custom-button:hover {
+  color: #cc0096;
+  box-shadow: 0 32px 32px rgba(220, 182, 88, 0.3);
+}
+
+.custom-button2:hover {
+  color: #00cc47;
+  box-shadow: 0 32px 32px rgba(220, 182, 88, 0.3);
+}
+
+.nav-btn:hover {
+  color: #0066cc;
+}
+
+/* Герой-секция */
+.hero {
+  height: 544px;
+  background-color: #F8F9FA;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  padding: 0 20px;
+  z-index: -3;
+}
+
+.hero h1 {
+  font-size: 44px;
+  padding-block: 25px;
+  justify-content: center;
+  position: absolute; /* абсолютное позиционирование внутри контейнера */
+  left: 30px;
+}
+
+.hero_succesIcons {
+  margin-top: 30px;
+  position: absolute;
+  left: 30px;
+  top: 90px;
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.first-text {
+  width: 1290px; 
+  height: 279px; 
+  top: 93px; 
+  position: absolute;
+}
+
+.bold-text {
+  font-size: 24px; 
+  font-weight: 700; 
+  letter-spacing: 2px; 
+  margin-bottom: 15px; 
+  line-height: 24px;
+}
+
+.second-text-image {
+  position: absolute; 
+  left: 660px; 
+  border-radius: 6px;
+}
+
+li {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+li:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.image-text {
+  width: 1290px; 
+  height: 506px; 
+  top: 413px; 
+  position: absolute;
+}
+
+.first-text-image {
+  border-radius: 6px;
+}
+
+.custom-button2 {
+  width: 350px;
+  height: 60px;
+  display: inline-block;
+  color: #000000; /* цвет текста */
+  background-size: cover; /* покрывать всю кнопку */
+  background-position: center; /* центрировать изображение */
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.custom-btn-position2 {
+  top: 271px; 
+  position: absolute; 
+  left: 30px; 
+  z-index: 1;
+}
+
+.goldbar {
+  width: 4px;
+  height: 50px;
+}
+
+.not-bold-text {
+  font-size: 18px; 
+  font-weight: 400; 
+  letter-spacing: 1px; 
+  line-height: 24px;
+}
+
+.second-text {
+  width: 1290px; 
+  height: 477px; 
+  top: 963px; 
+  position: absolute;
+}
+
+.hero_Photo {
+  position: absolute;
+  width: 740px; 
+  height: 450px; 
+  z-index: -1; 
+  right: 0px;
+}
+
+.hero_left {
+  position: absolute;
+  width: 550px;
+  height: 450px;
+}
+
+.status-bar-position {
+  position: relative; 
+  left: 535px; 
+  top: 500px;
+}
+
+.status-bar-position1 {
+  position: relative; 
+  left: 525px; 
+  top: 475px;
+}
+
+.first-btn-position {
+  background-size: 16.84px;
+  top: 111px; 
+  position: absolute; 
+  left: 30px;
+}
+
+.second-btn-position {
+   top: 191px; 
+   position: absolute; 
+   left: 30px;
+}
+
+.registr-form2 {
+  width: 1290px; 
+  height: 264px; 
+  background-color: rgb(255, 255, 255); 
+  border-color: #E4E5E6; 
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.cta-btn {
+  position: relative;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.custom-button {
+  width: 347px;
+  height: 60px;
+  display: inline-block;
+  padding: 15px 30px; /* регулируйте размер по необходимости */
+  font-size: 16px;
+  color: #000000; /* цвет текста */
+  background-size: cover; /* покрывать всю кнопку */
+  background-position: center; /* центрировать изображение */
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+  font-weight: 700;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.hero-button {
+  border-color: #fff;
+  border-radius: 2px;
+  background-color: #fff;
+  width: 40px;
+  height: 40px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.free-art {
+  height: 601px;
+}
+
+.registr-form {
+  width: 410px;
+  height: 407px;
+  background-color: white;
+  left: 45px;
+  position: relative; 
+  border-radius: 4px; 
+  text-align: center;
+} 
+
+
+/* Секция услуг */
+.technologics {
+  height: 1006px;
+  padding: 80px 5%;
+  text-align: center;
+}
+
+.technologics h1 {
+  justify-content: center;
+  display: flex;
+  font-size: 44px;
+  padding-block: 25px;
+  position: relative; /* абсолютное позиционирование внутри контейнера */
+  left: -315px;
+  white-space: nowrap;
+}
+
+.logotips-on-wall {
+  font-size: 44px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  white-space: nowrap;
+}
+
+.technologics p {
+  margin-left: 20px;
+}
+
+.checkbox-position {
+  display: flex; 
+  gap: 20px; 
+  top: 361px;
+  position: absolute; 
+  left: 57px;
+}
+
+.checkbox-position2 {
+  display: flex; 
+  gap: 20px; 
+  top: 100px; 
+  left: 497px; 
+  position: relative;
+}
+
+.footer-div {
+  display: flex; 
+  width: 1290px; 
+  height: 238px;
+}
+
+.footer-ul {
+  position: relative; 
+  top: 60px; 
+  font-size: 18px; 
+  font-weight: 700; 
+  opacity: 0.5;  
+  margin-right: 36px; 
+  line-height: 150%;
+}
+
+.technologics h2 {
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+}
+
+.services-grid {
+  width: 1290px;
+  height: 726px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  position: relative;
+  margin: 0 auto;
+}
+
+.technologics-icons {
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  width: 300px;
+  border-radius: 6px;
+  height: 168px;
+  position: relative;
+  color: #000000;
+  object-fit: cover;
+  display: block;
+}
+
+.text-section {
+  height: 1531px;
+  background-color: #F8F9FA;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: rgb(0, 0, 0);
+  text-align: left;
+  z-index: -3;
+}
+
+.method3 img {
+    outline: 2px solid #DCB658;
+    outline-offset: -10px;
+}
+
+.service-card {
+  background: #f9f9f9;
+  padding: 30px;
+  border-radius: 10px;
+  transition: all 0.3s;
+}
+
+.checkbox-text {
+  font-size:11px; 
+  font-weight:lighter; 
+  color: #A8A9AA; 
+  font-weight: 400;
+}
+
+.service-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.service-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+/* Подвал */
+footer {
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+  height: 238px;
+  background-color: #1C1D1E;
+  color: white;
+  display: flex;
+}
+
+.footer-column h3 {
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+}
+
+.footer-column ul {
+  list-style: none;
+}
+
+.grayRectangle {
+  top: 13px;
+  position: relative;
+  outline: none;
+}
+
+.footer-column ul li {
+  margin-bottom: 12px;
+}
+
+.footer-column ul li a {
+  color: #ccc;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.footer-column ul li a:hover {
+  color: white;
+}
+
+.object {
+  width: 1290px;
+  height: 450px;
+  background-color: #fff;
+  position: absolute;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  z-index: 0;
+}
+
+.contact-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.icons img {
+  width: 26px;
+  height: 26px;
+  margin-right: 5px;
+}
+
+.smeta-text {
+  top: 25px;
+  font-weight: 700;
+  font-size: 18px; 
+  position: relative; 
+  letter-spacing: 3px;
+}
+
+.method3-text {
+  top: 9px;
+  position: relative;
+  font-size: 18px;
+  width: 300px;
+  height: 23px;
+}
+
+.freeImg {
+  width: 850px;
+  height: 400.63px 
+}
+
+.image-stack {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    position: relative;
+  }
+
+  .dashed-underline {
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    text-underline-offset: 7px;
+    text-decoration-thickness: 1px;
+}
+
+.flexable {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-bar {
+  display: flex;
+  gap: 5px;
+  position: absolute;
+}
+.segment {
+  width: 40px;
+  height: 4px;
+  border-radius: 100px;
+  background-color: lightgray;
+}
+.segment.filled {
+  background-color: #DCB658;
+}
+
+.center{
+  left: 50%; 
+  transform: translate(-50%);
+}
+
+.hero_left h1 {
+  display: flex;
+  gap: 20px;
+  top: 15px
+}
+
+.smeta {
+  height: 544px;
+  background-color: #F8F9FA;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  padding: 0 20px;
+  z-index: -3;
+}
+
+.btn1 {
+  z-index: 4;
+  top: 205px;
+  left: -30px;
+}
+
+.btn2 {
+  z-index: 4;
+  top: 205px;
+  left: 580px;
+}
+
+.succesIcon {
+  width:16px;
+  height:16px;
+}
+
+.free-section {
+  position: absolute;
+  height: 407px;
+  width: 1290px;
+  top: 1800px;
+  display: flex;
+  flex-direction: row;
+}
+
+.background-map {
+  background-color: #F8F9FA;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  padding: 0 20px;
+  z-index: -3;
+  height: 300px;
+}
+
+.custom-btn-position {
+  position: absolute;
+  top: 10px; 
+  left: 0px;
+  z-index: 0;
+}
+/* Адаптивность */
+@media (max-width: 768px) {
+  header {
+      flex-direction: column;
+      gap: 20px;
+  }
+  
+  .hero h1 {
+      font-size: 2rem;
+  }
+  
+  .hero p {
+      font-size: 1rem;
+  }
+ 
+}
+
+@font-face {
+    font-family: 'PFDinDisplayProLight';
+    src: url('../fonts/PFDinDisplayProLight.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+@media (max-width: 320px) {
+ .hero {
+  height: 406px;
+  background-color: #F8F9FA;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  padding: 0 20px;
+  z-index: -3;
+ }
+
+ .object {
+  width: 320px;
+  height: 406px;
+  background-color: #fff;
+  position: absolute;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  z-index: 0;
+ }
+  .hero_Photo {
+  position: absolute;
+  width: 320px; 
+  height: 195px; 
+  z-index: -1;
+  }
+
+  .yellow-line {
+    width: 4px;
+    height: 50px;
+  }
+
+  .hero_left {
+    display: flex;
+  }
+
+  .status-bar {
+      display: flex;
+      gap: 5px;
+      top: 330px; 
+      position: absolute;
+  }
+  .segment.filled {
+      background-color: #DCB658;
+  }
+
+  .segment {
+    width: 20px;
+    height: 2px;
+    border-radius: 100px;
+    background-color: lightgray;
+  }
+
+  .custom-button {
+    width: 280px;
+    height: 40px;
+    display: inline-block;
+    color: #000000; /* цвет текста */
+    background-size: cover; /* покрывать всю кнопку */
+    background-position: center; /* центрировать изображение */
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+    font-weight: 700;
+    font-size: 11px;
+
+  }
+
+  .custom-btn-position {
+    position: absolute;
+    top: 10px;
+    left: -13px;
+    z-index: 1;
+  }
+
+  .logotips-on-wall {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  .yellow-line {
+    width: 2px;
+    height: 23px;
+  }
+
+  .hero_left h1 {
+    display: flex;
+    gap: 5px;
+    top: 200px
+  }
+
+  .succesIcon {
+    width:12px;
+    height:12px;
+    margin-right: 5px;
+  }
+
+  li {
+  font-size: 14px;
+  margin-bottom: 4px;
+  }
+
+  ul {
+    position: relative;
+    top: 140px;
+  }
+
+  .hero-button {
+    border-color: #fff;
+    border-radius: 2px;
+    background-color: #fff;
+    width: 20px;
+    height: 20px;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn1 {
+    z-index: 4;
+    top: 88px;
+    left: -120px;
+  }
+
+  .btn2 {
+    z-index: 4;
+    top: 88px;
+    left: 120px;
+  }
+
+  .technologics {
+    height: 900px;
+    padding: 80px 5%;
+    text-align: center;
+  }
+
+  .technologics h1 {
+    display: flex;
+    gap: 5px;
+    left: 0px;
+    top: -60px;
+  }
+
+  .services-grid {
+    top: -70px;
+    width: 280px;
+    height: 777px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    position: relative;
+    margin: 0 auto;
+  }
+
+  .technologics-icons {
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  width: 135px;
+  border-radius: 2px;
+  height: 75px;
+  position: relative;
+  color: #000000;
+  object-fit: cover;
+  display: block;
+  }
+
+  .method3-text {
+    top: 9px;
+    position: relative;
+    font-size: 11px;
+    width: 135px;
+    height: 26px;
+  }
+
+  .grayRectangle {
+    width: 50px;
+    height: 1px;
+    top: 6px;
+    position: relative;
+    outline: none;
+  }
+
+  .free-art {
+    height: 572px;
+  }
+
+  .free-section {
+  position: absolute;
+  height: 448px;
+  width: 280px;
+}
+
+.freeImg {
+  position: absolute;
+  top: -250px;
+  width: 280px;
+  height: 131.97px;
+  overflow: hidden; /* Обрезаем содержимое, выходящее за границы */
+  z-index: 5;
+}
+
+.freeImg img {
+  width: 100%; /* Занимает 100% ширины родителя */
+  height: 100%; /* Занимает 100% высоты родителя */
+  object-fit: cover; /* Заполняет весь контейнер, сохраняя пропорции */
+  object-position: center; /* Центрируем изображение */
+}
+
+.free-section-text-position {
+  position: absolute;
+  left: 0px;
+  top: -300px;
+}
+
+.registr-form {
+  width: 280px;
+  height: 297px;
+  background-color: white;
+  left: 0px;
+  position: relative; 
+  top: -100px;
+  border-radius: 4px; 
+  text-align: center;
+}
+
+.smeta-text {
+  top: 25px;
+  font-weight: 700;
+  font-size: 14px; 
+  position: relative; 
+  letter-spacing: 3px;
+}
+
+.input-btns {
+  background-color: #F8F9FA;
+  border-color: #E4E5E6;
+  border-radius: 6px;
+  width: 240px;
+  height: 40px;
+}
+
+.icon-input {
+  position: absolute;
+  padding-left: 30px; /* Отступ для иконки */
+  background-image: url(media/Rectangle2);
+  background-repeat: no-repeat;
+  background-position: 20px center;
+  background-size: 20px;
+  top: 0px;
+  font-size: 16 px;
+  font-weight: 400;
+}
+
+.first-btn-position {
+  background-size: 16.84px;
+  top: 97px; 
+  position: absolute; 
+  left: 20px;
+}
+
+.second-btn-position {
+   top: 157px; 
+   position: absolute; 
+   left: 20px;
+}
+
+.custom-btn-position2 {
+  top: 217px; 
+  position: absolute; 
+  left: 20px; 
+  z-index: 1;
+}
+
+.custom-button2 {
+  width: 240px;
+  height: 40px;
+  display: inline-block;    
+  color: #000000; /* цвет текста */
+  background-size: cover; /* покрывать всю кнопку */
+  background-position: center; /* центрировать изображение */
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+  font-weight: 700;
+  font-size: 11px;
+  }
+
+  .checkbox-position {
+    display: flex; 
+    top: 255px;
+    position: absolute; 
+    left: 57px;
+  }
+  
+  .checkbox-div {
+    width: 131px;
+    height: 22px;
+  }
+
+  .checkbox-text {
+    width: 131px;
+    height: 22px;
+    text-align: left;
+    font-size:9px; 
+    font-weight:lighter; 
+    color: #A8A9AA; 
+    font-weight: 400;
+  }
+
+  .text-section {
+    height: 1663px;
+    background-color: #F8F9FA;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: rgb(0, 0, 0);
+    text-align: left;
+    z-index: -3;
+  }
+
+  .first-text {
+    width: 280px; 
+    height: 483px; 
+    top: 36px; 
+    position: absolute;
+  }
+
+  .bold-text {
+    font-size: 14px; 
+    font-weight: 700; 
+    letter-spacing: 1px; 
+    margin-bottom: 15px; 
+    line-height: 21px;
+  }
+
+  .not-bold-text {
+    font-size: 11px; 
+    font-weight: 400; 
+    letter-spacing: 0.5px; 
+    line-height: 16.5px;
+  }
+
+  .first-text-image {
+    position: absolute; 
+    left: 1234px; 
+    width: 320px;
+    height: 252px;
+    border-radius: none;
+  }
+
+  .second-text-image {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 320px;
+    height: 252px;
+    border-radius: 6px;
+  }
+
+  .image-text {
+    width: 320px; 
+    height: 252px; 
+    top: 523px; 
+    position: absolute;
+  }
+
+  .status-bar-position {
+    position: relative; 
+    left: 100px; 
+    top: 240px;
+  }
+
+  .second-text {
+    width: 280px; 
+    height: 827px; 
+    top: 800px; 
+    position: absolute;
+  }
+
+  .smeta {
+    height: 378px;
+    background-color: #F8F9FA;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    padding: 0 20px;
+    z-index: -3;
+  }
+
+  .registr-form2 {
+    width: 280px;
+    height: 297px;
+    background-color: white;
+    left: 0px;
+    position: relative; 
+    top: 0px;
+    border-radius: 4px; 
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  }
+
+  .first-btn-position2 {
+    background-size: 16.84px;
+    top: -40px; 
+    position: absolute; 
+    left: -70px;
+  }
+
+  .second-btn-position2 {
+   top: 20px; 
+   position: absolute; 
+   left: -70px;
+  }
+
+  .custom-btn-position3 {
+    top: 80px; 
+    position: absolute; 
+    left: -70px; 
+    z-index: 1;
+  }
+
+  .checkbox-position2 {
+    display: flex; 
+    top: 255px;
+    position: absolute; 
+    left: 57px;
+}
+
+  .background-map {
+    background-color: #F8F9FA;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    padding: 0 20px;
+    z-index: -3;
+    height: 200px;
+  }
+
+.goldbar {
+  position: relative;
+  left: 0px;
+  width: 2px;
+  height: 23px;
+}
+
+.status-bar-position1 {
+  position: relative; 
+  left: 100px; 
+  top: 185px;
+}
+
+.footer-div {
+  display: flex; 
+  width: 1290px; 
+  height: 238px;
+}
+
+.footer-ul {
+  position: relative; 
+  top: 60px; 
+  font-size: 18px; 
+  font-weight: 700; 
+  opacity: 0.5;  
+  margin-right: 36px; 
+  line-height: 150%;
+}
+
+}
+  
