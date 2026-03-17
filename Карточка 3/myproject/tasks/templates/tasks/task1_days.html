@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Дни недели{% endblock %}
+
+{% block content %}
+<div class="task-card">
+    <h2 class="task-title">Дни недели</h2>
+    <div class="info-grid">
+        {% for num, day in days_of_week.items %}
+        <div class="info-item {% if num == current_day_num %}highlight{% endif %}">
+            <div class="info-label">{{ num }}:</div>
+            <div class="info-value">{{ day }}</div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="info-item" style="margin-top: 20px; background: #e3f2fd;">
+        <div class="info-label">Текущий день:</div>
+        <div class="info-value">{{ current_day }}</div>
+    </div>
+</div>
+{% endblock %}

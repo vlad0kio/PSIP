@@ -1,0 +1,11 @@
+{% extends "lr23/base.html" %}
+{% load static %}
+
+{% block title %}Использование include с контекстом{% endblock %}
+
+{% block content %}
+    <!-- В Django шаблоны не возвращают значения как функции -->
+    <!-- Но можно передавать контекст в include -->
+    {% include "lr23/top_with_context.html" with result=56 %}
+    <h2>Переменная из контекста: {{ result }}</h2>
+{% endblock %}

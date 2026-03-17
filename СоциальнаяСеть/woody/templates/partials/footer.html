@@ -1,0 +1,484 @@
+<footer class="footer">
+    <!-- Минималистичная волна -->
+    <div class="footer-wave">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100">
+            <path fill="#1877f2" fill-opacity="0.05" d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,48C672,43,768,53,864,64C960,75,1056,85,1152,80C1248,75,1344,53,1392,42.7L1440,32L1440,100L1392,100C1344,100,1248,100,1152,100C1056,100,960,100,864,100C768,100,672,100,576,100C480,100,384,100,288,100C192,100,96,100,48,100L0,100Z"></path>
+        </svg>
+    </div>
+
+    <div class="footer-container">
+        <!-- Компактная сетка -->
+        <div class="footer-grid">
+            <!-- О проекте + Правовая информация -->
+            <div class="footer-column">
+                <h4 class="footer-title">О проекте</h4>
+                <ul class="footer-menu">
+                    <li><a href="{% url 'about' %}" class="footer-link">О нас</a></li>
+                    <li><a href="{% url 'contact' %}" class="footer-link">Контакты</a></li>
+                    <li><a href="{% url 'privacy' %}" class="footer-link">Конфиденциальность</a></li>
+                    <li><a href="{% url 'terms' %}" class="footer-link">Условия</a></li>
+                </ul>
+            </div>
+
+            <!-- Разработчикам + Поддержка -->
+            <div class="footer-column">
+                <h4 class="footer-title">Разработчикам</h4>
+                <ul class="footer-menu">
+                    <li><a href="{% url 'developers' %}" class="footer-link">Документация</a></li>
+                    <li><a href="{% url 'api' %}" class="footer-link">API</a></li>
+                    <li><a href="{% url 'help' %}" class="footer-link">Помощь</a></li>
+                    <li><a href="{% url 'faq' %}" class="footer-link">FAQ</a></li>
+                </ul>
+            </div>
+
+            <!-- Социальные сети компактно -->
+            <div class="footer-column">
+                <h4 class="footer-title">Мы в соцсетях</h4>
+                <div class="social-mini">
+                    <a href="#" class="social-mini-link" title="Facebook">📘</a>
+                    <a href="#" class="social-mini-link" title="Twitter">🐦</a>
+                    <a href="#" class="social-mini-link" title="Instagram">📷</a>
+                    <a href="#" class="social-mini-link" title="Telegram">📱</a>
+                    <a href="#" class="social-mini-link" title="YouTube">▶️</a>
+                    <a href="#" class="social-mini-link" title="GitHub">💻</a>
+                </div>
+
+                <!-- Компактные ссылки на приложения -->
+                <div class="app-mini">
+                    <a href="#" class="app-mini-link" title="App Store">🍎</a>
+                    <a href="#" class="app-mini-link" title="Google Play">🤖</a>
+                </div>
+            </div>
+
+            <!-- Новостная рассылка компактно -->
+            <div class="footer-column">
+                <h4 class="footer-title">Подписка</h4>
+                <form class="newsletter-mini" method="POST" action="{% url 'subscribe' %}">
+                    {% csrf_token %}
+                    <div class="newsletter-mini-group">
+                        <input type="email" name="email" class="newsletter-mini-input" placeholder="Email" required>
+                        <button type="submit" class="newsletter-mini-btn" title="Подписаться">✉️</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Нижняя часть -->
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <div class="copyright">
+                    © 2024 SocialNet
+                </div>
+
+                <div class="language-selector">
+                    <button class="language-btn" onclick="toggleLanguageMenu()">
+                        <span class="language-icon">🌐</span>
+                        <span class="language-name">Рус</span>
+                        <span class="language-arrow">▼</span>
+                    </button>
+                    <div class="language-menu" id="languageMenu">
+                        <a href="#" class="language-option active">Русский</a>
+                        <a href="#" class="language-option">English</a>
+                        <a href="#" class="language-option">Español</a>
+                    </div>
+                </div>
+
+                <div class="payment-mini">
+                    <span class="payment-mini-icon" title="Visa">💳</span>
+                    <span class="payment-mini-icon" title="Mastercard">💳</span>
+                    <span class="payment-mini-icon" title="PayPal">📧</span>
+                </div>
+            </div>
+
+            <!-- Компактная информация о компании -->
+            <div class="company-mini">
+                ООО "Социальная сеть", ИНН 1234567890
+            </div>
+        </div>
+    </div>
+</footer>
+
+<style>
+.footer {
+    background: #f8fafc;
+    position: relative;
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid #e2e8f0;
+    font-size: 13px;
+}
+
+/* Уменьшенная волна */
+.footer-wave {
+    position: absolute;
+    top: -50px;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    pointer-events: none;
+}
+
+.footer-wave svg {
+    width: 100%;
+    height: 50px;
+}
+
+/* Контейнер */
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Компактная сетка */
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.footer-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 12px;
+    position: relative;
+    padding-bottom: 6px;
+}
+
+.footer-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 30px;
+    height: 2px;
+    background: #1877f2;
+}
+
+.footer-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-menu li {
+    margin-bottom: 8px;
+}
+
+.footer-link {
+    color: #64748b;
+    text-decoration: none;
+    font-size: 12px;
+    transition: color 0.2s;
+}
+
+.footer-link:hover {
+    color: #1877f2;
+}
+
+/* Компактные социальные сети */
+.social-mini {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.social-mini-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: white;
+    border-radius: 50%;
+    text-decoration: none;
+    color: #475569;
+    font-size: 16px;
+    transition: all 0.2s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.social-mini-link:hover {
+    background: #1877f2;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Компактные приложения */
+.app-mini {
+    display: flex;
+    gap: 8px;
+}
+
+.app-mini-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: #1e293b;
+    border-radius: 50%;
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    transition: all 0.2s;
+}
+
+.app-mini-link:hover {
+    background: #1877f2;
+    transform: translateY(-2px);
+}
+
+/* Компактная новостная рассылка */
+.newsletter-mini-group {
+    display: flex;
+    gap: 6px;
+}
+
+.newsletter-mini-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    font-size: 12px;
+    background: white;
+    transition: all 0.2s;
+}
+
+.newsletter-mini-input:focus {
+    outline: none;
+    border-color: #1877f2;
+    box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.1);
+}
+
+.newsletter-mini-btn {
+    width: 32px;
+    height: 32px;
+    background: #1877f2;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.newsletter-mini-btn:hover {
+    background: #166fe5;
+    transform: scale(1.05);
+}
+
+/* Нижняя часть */
+.footer-bottom {
+    border-top: 1px solid #e2e8f0;
+    padding: 15px 0;
+}
+
+.footer-bottom-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 8px;
+}
+
+.copyright {
+    color: #64748b;
+    font-size: 12px;
+}
+
+/* Компактный язык */
+.language-selector {
+    position: relative;
+}
+
+.language-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 10px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 12px;
+    color: #1e293b;
+    transition: all 0.2s;
+}
+
+.language-btn:hover {
+    border-color: #1877f2;
+}
+
+.language-arrow {
+    font-size: 10px;
+    transition: transform 0.2s;
+}
+
+.language-selector:hover .language-arrow {
+    transform: rotate(180deg);
+}
+
+.language-menu {
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    width: 120px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin-bottom: 5px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(5px);
+    transition: all 0.2s;
+    z-index: 1000;
+}
+
+.language-selector:hover .language-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.language-option {
+    display: block;
+    padding: 6px 12px;
+    color: #475569;
+    text-decoration: none;
+    font-size: 11px;
+    transition: all 0.2s;
+}
+
+.language-option:hover {
+    background: #f1f5f9;
+}
+
+.language-option.active {
+    color: #1877f2;
+    font-weight: 500;
+    background: #e8f0fe;
+}
+
+/* Компактные платежные методы */
+.payment-mini {
+    display: flex;
+    gap: 8px;
+}
+
+.payment-mini-icon {
+    font-size: 18px;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+    cursor: help;
+}
+
+.payment-mini-icon:hover {
+    opacity: 1;
+}
+
+/* Компактная информация о компании */
+.company-mini {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 10px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+
+    .footer-bottom-content {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .footer-wave {
+        top: -30px;
+    }
+
+    .footer-wave svg {
+        height: 30px;
+    }
+}
+
+/* Темная тема */
+@media (prefers-color-scheme: dark) {
+    .footer {
+        background: #1e293b;
+        border-top-color: #334155;
+    }
+
+    .footer-title {
+        color: #f1f5f9;
+    }
+
+    .footer-link {
+        color: #94a3b8;
+    }
+
+    .footer-link:hover {
+        color: #60a5fa;
+    }
+
+    .social-mini-link {
+        background: #334155;
+        color: #94a3b8;
+    }
+
+    .newsletter-mini-input {
+        background: #334155;
+        border-color: #475569;
+        color: #f1f5f9;
+    }
+
+    .language-btn {
+        background: #334155;
+        border-color: #475569;
+        color: #f1f5f9;
+    }
+
+    .language-menu {
+        background: #1e293b;
+        border-color: #334155;
+    }
+
+    .copyright, .company-mini {
+        color: #94a3b8;
+    }
+}
+</style>
+
+<script>
+function toggleLanguageMenu() {
+    const menu = document.getElementById('languageMenu');
+    menu.classList.toggle('show');
+}
+
+document.addEventListener('click', function(event) {
+    const languageSelector = document.querySelector('.language-selector');
+    const menu = document.getElementById('languageMenu');
+
+    if (!languageSelector.contains(event.target) && menu.classList.contains('show')) {
+        menu.classList.remove('show');
+    }
+});
+</script>

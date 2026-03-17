@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SocialNet - Социальная сеть{% endblock %}</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌐</text></svg>">
+
+    <style>
+        /* ===== CSS Variables ===== */
+        :root {
+            --primary-color: #1877f2;
+            --primary-dark: #166fe5;
+            --primary-light: #e7f3ff;
+            --secondary-color: #42b72a;
+            --danger-color: #ff4444;
+            --warning-color: #ff8c00;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --bg-primary: #f0f2f5;
+            --bg-white: #ffffff;
+            --bg-sidebar: #ffffff;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+            --shadow-hover: 0 12px 32px rgba(0,0,0,0.15);
+            --transition: all 0.3s ease;
+            --border-radius-sm: 8px;
+            --border-radius-md: 12px;
+            --border-radius-lg: 16px;
+            --border-radius-xl: 24px;
+            --border-radius-full: 9999px;
+        }
+
+        /* Темная тема */
+        .dark-theme {
+            --primary-color: #3b82f6;
+            --primary-light: #1e3a5f;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --bg-primary: #0f172a;
+            --bg-white: #1e293b;
+            --bg-sidebar: #1e293b;
+            --border-color: #334155;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.5);
+        }
+
+        /* ===== Base Styles ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: var(--transition);
+        }
+
+        .app-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== Layout ===== */
+        .authenticated-layout {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            flex: 1;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .main-content {
+            flex: 1;
+            min-width: 0; /* Для предотвращения переполнения */
+        }
+
+        /* Сайдбары */
+        .sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            height: fit-content;
+            position: sticky;
+            top: 90px;
+            transition: var(--transition);
+        }
+
+        .right-sidebar {
+            width: 320px;
+            flex-shrink: 0;
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            height: fit-content;
+            position: sticky;
+            top: 90px;
+            transition: var(--transition);
+        }
+
+        /* ===== Header Styles ===== */
+        .header {
+            background: var(--bg-white);
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .dark-theme .header {
+            background: rgba(30, 41, 59, 0.95);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-icon {
+            font-size: 32px;
+            animation: spin 20s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 600px;
+            margin: 0 20px;
+        }
+
+        .search-form {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 20px 12px 45px;
+            border: 2px solid transparent;
+            border-radius: var(--border-radius-full);
+            background: var(--bg-primary);
+            font-size: 15px;
+            transition: var(--transition);
+            color: var(--text-primary);
+        }
+
+        .search-input:focus {
+            outline: none;
+            background: var(--bg-white);
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 12px rgba(24, 119, 242, 0.15);
+        }
+
+        .search-btn {
+            position: absolute;
+            left: 15px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            opacity: 0.6;
+            transition: var(--transition);
+        }
+
+        .search-btn:hover {
+            opacity: 1;
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-icon {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px 12px;
+            border-radius: var(--border-radius-md);
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .nav-icon:hover {
+            background: var(--bg-primary);
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .nav-icon.active {
+            color: var(--primary-color);
+            background: var(--primary-light);
+        }
+
+        .nav-icon-emoji {
+            font-size: 22px;
+            margin-bottom: 2px;
+        }
+
+        .nav-icon-label {
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .nav-badge {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            min-width: 18px;
+            height: 18px;
+            background: var(--danger-color);
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+            border-radius: var(--border-radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+            border: 2px solid var(--bg-white);
+            animation: pulse 2s infinite;
+        }
+
+        .profile-dropdown {
+            position: relative;
+            margin-left: 8px;
+        }
+
+        .profile-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px 6px 6px;
+            background: var(--bg-primary);
+            border: none;
+            border-radius: var(--border-radius-full);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .profile-button:hover {
+            background: var(--border-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .profile-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            max-width: 120px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            width: 280px;
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: var(--transition);
+            z-index: 1001;
+        }
+
+        .profile-dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* ===== Footer Styles ===== */
+        .footer {
+            background: var(--bg-white);
+            position: relative;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-wave {
+            position: absolute;
+            top: -100px;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            pointer-events: none;
+        }
+
+        .footer-wave svg {
+            width: 100%;
+            height: 100px;
+            fill: var(--primary-color);
+            opacity: 0.1;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+            border-radius: 2px;
+            transition: width 0.3s;
+        }
+
+        .footer-menu {
+            list-style: none;
+        }
+
+        .footer-menu li {
+            margin-bottom: 12px;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: var(--transition);
+            display: inline-block;
+            position: relative;
+        }
+
+        .footer-link:hover {
+            color: var(--primary-color);
+            transform: translateX(10px);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 30px 0;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--bg-primary);
+            border-radius: var(--border-radius-full);
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .footer-bottom {
+            padding: 20px 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-bottom-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .copyright {
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        /* ===== Components ===== */
+        /* Уведомления */
+        .messages {
+            margin: 20px auto;
+            max-width: 600px;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: var(--border-radius-md);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            animation: slideIn 0.3s ease;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border-left: 4px solid #ffc107;
+        }
+
+        .alert-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: var(--transition);
+        }
+
+        .alert-close:hover {
+            opacity: 1;
+        }
+
+        /* Кнопки */
+        .btn {
+            display: inline-block;
+            padding: 10px 24px;
+            border: none;
+            border-radius: var(--border-radius-full);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+        }
+
+        /* Формы */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            font-size: 15px;
+            transition: var(--transition);
+            background: var(--bg-white);
+            color: var(--text-primary);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.1);
+        }
+
+        /* Карточки */
+        .card {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        /* Анимации */
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 6px rgba(255, 68, 68, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 68, 68, 0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ===== Responsive Design ===== */
+        @media (max-width: 1200px) {
+            .sidebar {
+                width: 240px;
+            }
+            .right-sidebar {
+                width: 280px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .authenticated-layout {
+                padding: 15px;
+                gap: 15px;
+            }
+
+            .sidebar, .right-sidebar {
+                width: 220px;
+            }
+
+            .nav-icon-label {
+                display: none;
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .authenticated-layout {
+                flex-direction: column;
+            }
+
+            .sidebar, .right-sidebar {
+                width: 100%;
+                position: static;
+            }
+
+            .header-container {
+                flex-direction: column;
+                padding: 10px;
+            }
+
+            .search-bar {
+                width: 100%;
+                margin: 10px 0;
+            }
+
+            .profile-name {
+                display: none;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .footer-bottom-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .social-links {
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-icons {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .nav-icon {
+                padding: 6px 8px;
+            }
+
+            .footer-wave {
+                top: -50px;
+            }
+
+            .footer-wave svg {
+                height: 50px;
+            }
+        }
+
+        /* ===== Utility Classes ===== */
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .text-left { text-align: left; }
+
+        .mt-10 { margin-top: 10px; }
+        .mt-20 { margin-top: 20px; }
+        .mt-30 { margin-top: 30px; }
+        .mb-10 { margin-bottom: 10px; }
+        .mb-20 { margin-bottom: 20px; }
+        .mb-30 { margin-bottom: 30px; }
+
+        .p-10 { padding: 10px; }
+        .p-20 { padding: 20px; }
+        .p-30 { padding: 30px; }
+
+        .d-flex { display: flex; }
+        .align-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-10 { gap: 10px; }
+        .gap-20 { gap: 20px; }
+
+        .w-100 { width: 100%; }
+        .h-100 { height: 100%; }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="app-container">
+        {% if user.is_authenticated %}
+            <!-- Хедер для авторизованных пользователей -->
+            <header class="header">
+                <div class="header-container">
+                    <a href="{% url '' %}" class="logo">
+                        <span class="logo-icon">🌐</span>
+                        <span class="logo-text">SocialNet</span>
+                    </a>
+
+                    <div class="search-bar">
+                        <form class="search-form" method="GET" action="{% url 'search' %}">
+                            <button type="submit" class="search-btn">🔍</button>
+                            <input type="text"
+                                   name="q"
+                                   class="search-input"
+                                   placeholder="Поиск людей, постов и групп..."
+                                   value="{{ request.GET.q }}">
+                        </form>
+                    </div>
+
+                    <div class="nav-icons">
+                        <a href="{% url 'feed' %}" class="nav-icon {% if request.resolver_match.url_name == 'feed' %}active{% endif %}">
+                            <span class="nav-icon-emoji">🏠</span>
+                            <span class="nav-icon-label">Главная</span>
+                        </a>
+
+                        <a href="{% url 'friends' %}" class="nav-icon {% if request.resolver_match.url_name == 'friends' %}active{% endif %}">
+                            <span class="nav-icon-emoji">👥</span>
+                            <span class="nav-icon-label">Друзья</span>
+                            {% if friend_requests_count %}
+                            <span class="nav-badge">{{ friend_requests_count }}</span>
+                            {% endif %}
+                        </a>
+
+                        <a href="{% url 'messages' %}" class="nav-icon {% if request.resolver_match.url_name == 'messages' %}active{% endif %}">
+                            <span class="nav-icon-emoji">💬</span>
+                            <span class="nav-icon-label">Чаты</span>
+                            {% if unread_messages_count %}
+                            <span class="nav-badge message">{{ unread_messages_count }}</span>
+                            {% endif %}
+                        </a>
+
+                        <a href="{% url 'notifications' %}" class="nav-icon {% if request.resolver_match.url_name == 'notifications' %}active{% endif %}">
+                            <span class="nav-icon-emoji">🔔</span>
+                            <span class="nav-icon-label">Увед.</span>
+                            {% if unread_notifications_count %}
+                            <span class="nav-badge notification">{{ unread_notifications_count }}</span>
+                            {% endif %}
+                        </a>
+
+                        <div class="profile-dropdown">
+                            <button class="profile-button">
+                                <div class="profile-avatar">
+                                    {% if user.profile.avatar %}
+                                    <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}">
+                                    {% else %}
+                                    <span>{{ user.username|first|upper }}</span>
+                                    {% endif %}
+                                </div>
+                                <span class="profile-name">{{ user.get_full_name|default:user.username|truncatechars:15 }}</span>
+                                <span class="dropdown-arrow">▼</span>
+                            </button>
+
+                            <div class="dropdown-menu">
+                                <a href="{% url 'profile' user.username %}" class="dropdown-item">Мой профиль</a>
+                                <a href="{% url 'settings' %}" class="dropdown-item">Настройки</a>
+                                <a href="{% url 'saved' %}" class="dropdown-item">Сохраненное</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item theme-toggle" onclick="toggleTheme()">Темная тема</a>
+                                <a href="{% url 'help' %}" class="dropdown-item">Помощь</a>
+                                <div class="dropdown-divider"></div>
+                                <form method="post" action="{% url 'logout' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="dropdown-item logout-btn">Выйти</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Основной контент с сайдбарами для авторизованных -->
+            <div class="authenticated-layout">
+                <!-- Левый сайдбар -->
+                {% block sidebar %}
+                    {% include 'partials/sidebar.html' %}
+                {% endblock %}
+
+                <!-- Основной контент -->
+                <main class="main-content">
+                    {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                            <button class="alert-close" onclick="this.parentElement.remove()">×</button>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    {% block content %}{% endblock %}
+                </main>
+
+                <!-- Правый сайдбар -->
+                {% block right_sidebar %}
+                    {% include 'partials/right_sidebar.html' %}
+                {% endblock %}
+            </div>
+
+        {% else %}
+            <!-- Для неавторизованных пользователей - показываем feed -->
+            <header class="header">
+                <div class="header-container">
+                    <a href="{% url 'feed' %}" class="logo">
+                        <span class="logo-icon">🌐</span>
+                        <span class="logo-text">SocialNet</span>
+                    </a>
+                    <div class="nav-icons">
+                        <a href="{% url 'login' %}" class="btn btn-primary">Вход</a>
+                        <a href="{% url 'register' %}" class="btn btn-secondary">Регистрация</a>
+                    </div>
+                </div>
+            </header>
+
+            <main class="main-content" style="max-width: 1400px; margin: 0 auto; padding: 20px; width: 100%;">
+                {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                        <button class="alert-close" onclick="this.parentElement.remove()">×</button>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- Включаем feed для неавторизованных пользователей -->
+                {% include 'posts/feed.html' %}
+            </main>
+        {% endif %}
+
+        <!-- Футер (общий для всех) -->
+        <footer class="footer">
+            <div class="footer-wave">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                    <path fill="var(--primary-color)" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,170.7C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+                </svg>
+            </div>
+
+            <div class="footer-container">
+                <div class="footer-grid">
+                    <div class="footer-column">
+                        <h4 class="footer-title">О проекте</h4>
+                        <ul class="footer-menu">
+                            <li><a href="{% url 'about' %}" class="footer-link">О нас</a></li>
+                            <li><a href="{% url 'contact' %}" class="footer-link">Контакты</a></li>
+                            <li><a href="{% url 'careers' %}" class="footer-link">Карьера</a></li>
+                            <li><a href="{% url 'blog' %}" class="footer-link">Блог</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Разработчикам</h4>
+                        <ul class="footer-menu">
+                            <li><a href="{% url 'docs' %}" class="footer-link">Документация</a></li>
+                            <li><a href="{% url 'api' %}" class="footer-link">API</a></li>
+                            <li><a href="{% url 'opensource' %}" class="footer-link">Open Source</a></li>
+                            <li><a href="{% url 'status' %}" class="footer-link">Статус</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Правовая информация</h4>
+                        <ul class="footer-menu">
+                            <li><a href="{% url 'privacy' %}" class="footer-link">Конфиденциальность</a></li>
+                            <li><a href="{% url 'terms' %}" class="footer-link">Условия использования</a></li>
+                            <li><a href="{% url 'cookies' %}" class="footer-link">Cookie</a></li>
+                            <li><a href="{% url 'advertising' %}" class="footer-link">Реклама</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Поддержка</h4>
+                        <ul class="footer-menu">
+                            <li><a href="{% url 'help' %}" class="footer-link">Помощь</a></li>
+                            <li><a href="{% url 'faq' %}" class="footer-link">FAQ</a></li>
+                            <li><a href="{% url 'support' %}" class="footer-link">Служба поддержки</a></li>
+                            <li><a href="{% url 'feedback' %}" class="footer-link">Обратная связь</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="social-links">
+                    <a href="#" class="social-link">📘 Facebook</a>
+                    <a href="#" class="social-link">🐦 Twitter</a>
+                    <a href="#" class="social-link">📷 Instagram</a>
+                    <a href="#" class="social-link">📱 Telegram</a>
+                    <a href="#" class="social-link">▶️ YouTube</a>
+                    <a href="#" class="social-link">💻 GitHub</a>
+                </div>
+
+                <div class="footer-bottom">
+                    <div class="footer-bottom-content">
+                        <div class="copyright">
+                            <p>© 2024 SocialNet. Все права защищены.</p>
+                            <p class="company-info">ООО "Социальная сеть", ИНН 1234567890</p>
+                        </div>
+
+                        <div class="language-selector">
+                            <button class="language-btn" onclick="toggleLanguageMenu()">
+                                <span class="language-icon">🌐</span>
+                                <span class="language-name">Русский</span>
+                                <span class="language-arrow">▼</span>
+                            </button>
+                        </div>
+
+                        <div class="payment-methods">
+                            <span class="payment-icon" title="Visa">💳</span>
+                            <span class="payment-icon" title="Mastercard">💳</span>
+                            <span class="payment-icon" title="PayPal">📧</span>
+                            <span class="payment-icon" title="Apple Pay">🍎</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Блок для дополнительных скриптов -->
+    {% block extra_js %}{% endblock %}
+
+    <script>
+        // Базовый JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Автоматическое скрытие сообщений через 5 секунд
+            setTimeout(function() {
+                document.querySelectorAll('.alert').forEach(function(message) {
+                    message.style.transition = 'opacity 0.5s';
+                    message.style.opacity = '0';
+                    setTimeout(function() {
+                        if (message.parentNode) {
+                            message.parentNode.removeChild(message);
+                        }
+                    }, 500);
+                });
+            }, 5000);
+
+            // Закрытие алертов по кнопке
+            document.querySelectorAll('.alert-close').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.parentElement.remove();
+                });
+            });
+        });
+
+        // Функция переключения темы
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            const isDark = document.body.classList.contains('dark-theme');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+
+            // Обновляем текст кнопки
+            const themeBtn = document.querySelector('.theme-toggle');
+            if (themeBtn) {
+                themeBtn.textContent = isDark ? 'Светлая тема' : 'Темная тема';
+            }
+        }
+
+        // Загрузка сохраненной темы
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-theme');
+        }
+
+        // Функция для получения CSRF токена
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+</body>
+</html>

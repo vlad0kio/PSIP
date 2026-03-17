@@ -1,0 +1,68 @@
+{% extends 'base_guest.html' %}
+
+{% block title %}Настройки{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto; padding: 20px;">
+    <h1 style="margin-bottom: 30px;">Настройки профиля</h1>
+    
+    <div style="background: white; border-radius: 10px; padding: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        
+        <!-- Основная информация -->
+        <div style="margin-bottom: 40px;">
+            <h2 style="margin-bottom: 20px; color: #333;">Основная информация</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; color: #666;">Имя пользователя</label>
+                    <input type="text" value="{{ user.username }}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" readonly>
+                    <small style="color: #999;">Имя пользователя нельзя изменить</small>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; color: #666;">Email</label>
+                    <input type="email" name="email" value="{{ user.email }}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; color: #666;">Имя</label>
+                    <input type="text" name="first_name" value="{{ user.first_name }}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; color: #666;">Фамилия</label>
+                    <input type="text" name="last_name" value="{{ user.last_name }}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; color: #666;">О себе</label>
+                    <textarea name="bio" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; height: 100px;">{{ user.profile.bio }}</textarea>
+                </div>
+                
+                <button type="submit" style="padding: 12px 30px; background: #1877f2; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: 600;">
+                    Сохранить изменения
+                </button>
+            </form>
+        </div>
+        
+        <!-- Смена пароля -->
+        <div style="margin-bottom: 40px; padding-top: 30px; border-top: 1px solid #eee;">
+            <h2 style="margin-bottom: 20px; color: #333;">Смена пароля</h2>
+            <a href="{% url 'password_reset' %}" style="display: inline-block; padding: 12px 25px; background: #f0f2f5; color: #1877f2; text-decoration: none; border-radius: 5px; font-weight: 600;">
+                Сменить пароль
+            </a>
+        </div>
+        
+        <!-- Опасная зона -->
+        <div style="padding-top: 30px; border-top: 1px solid #eee;">
+            <h2 style="margin-bottom: 20px; color: #ff4444;">Опасная зона</h2>
+            <button style="padding: 12px 25px; background: #ff4444; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: 600;">
+                Удалить аккаунт
+            </button>
+            <small style="display: block; margin-top: 10px; color: #999;">Это действие нельзя отменить</small>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}

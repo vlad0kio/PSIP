@@ -1,0 +1,5 @@
+.styled-text {
+    text-decoration: line-through; /* Перечеркивание текста */
+    color: red; /* Красный цвет текста */
+    text-align: justify; /* Выравнивание текста по ширине */
+}

@@ -1,0 +1,137 @@
+{% extends 'base_guest.html' %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+<div style="max-width: 450px; margin: 50px auto; padding: 20px;">
+    <div style="background: white; padding: 40px; border-radius: 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.1); border: 1px solid #e0e0e0;">
+
+        <!-- Заголовок -->
+        <div style="text-align: center; margin-bottom: 30px;">
+            <div style="font-size: 48px; color: #1877f2; margin-bottom: 10px;">🔐</div>
+            <h1 style="margin: 0; color: #333; font-size: 28px;">Добро пожаловать</h1>
+            <p style="color: #666; margin-top: 10px;">Войдите в свой аккаунт</p>
+        </div>
+
+        <!-- Сообщения об ошибках -->
+        {% if messages %}
+        <div style="margin-bottom: 25px;">
+            {% for message in messages %}
+            <div style="padding: 15px; border-radius: 10px; margin-bottom: 12px;
+                       {% if message.tags == 'error' %}background: linear-gradient(135deg, #ffcccc 0%, #ff9999 100%); color: #c00; border-left: 4px solid #ff4444;{% endif %}
+                       {% if message.tags == 'success' %}background: linear-gradient(135deg, #ccffcc 0%, #99ff99 100%); color: #006600; border-left: 4px solid #00aa00;{% endif %}
+                       box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 18px;">
+                        {% if message.tags == 'error' %}❌{% endif %}
+                        {% if message.tags == 'success' %}✅{% endif %}
+                    </span>
+                    <span style="font-weight: 500;">{{ message }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Форма входа -->
+        <form method="post">
+            {% csrf_token %}
+
+            <!-- Поле логина -->
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 8px; color: #333; font-weight: 600; font-size: 14px;">
+                    Имя пользователя или Email
+                </label>
+                <input type="text" name="username"
+                       placeholder="Введите имя пользователя или email"
+                       style="width: 100%; padding: 14px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px; transition: all 0.3s;"
+                       required
+                       onfocus="this.style.borderColor='#1877f2'; this.style.boxShadow='0 0 0 3px rgba(24, 119, 242, 0.1)';"
+                       onblur="this.style.borderColor='#e0e0e0'; this.style.boxShadow='none';">
+            </div>
+
+            <!-- Поле пароля -->
+            <div style="margin-bottom: 25px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <label style="color: #333; font-weight: 600; font-size: 14px;">
+                        Пароль
+                    </label>
+                    <a href="#" onclick="alert('Восстановление пароля временно недоступно'); return false;"
+                       style="color: #1877f2; text-decoration: none; font-size: 13px;">
+                        Забыли пароль?
+                    </a>
+                </div>
+                <input type="password" name="password"
+                       placeholder="Введите пароль"
+                       style="width: 100%; padding: 14px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px; transition: all 0.3s;"
+                       required
+                       onfocus="this.style.borderColor='#1877f2'; this.style.boxShadow='0 0 0 3px rgba(24, 119, 242, 0.1)';"
+                       onblur="this.style.borderColor='#e0e0e0'; this.style.boxShadow='none';">
+            </div>
+
+            <!-- Чекбокс "Запомнить меня" -->
+            <div style="margin-bottom: 30px;">
+                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                    <input type="checkbox" name="remember" style="width: 18px; height: 18px;">
+                    <span style="color: #333; font-size: 14px;">Запомнить меня</span>
+                </label>
+            </div>
+
+            <!-- Кнопка входа -->
+            <button type="submit"
+                    style="width: 100%; padding: 16px; background: linear-gradient(135deg, #1877f2 0%, #165fe5 100%);
+                           color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600;
+                           cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(24, 119, 242, 0.2);"
+                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(24, 119, 242, 0.3)';"
+                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(24, 119, 242, 0.2)';"
+                    onclick="this.style.transform='translateY(0)';">
+                Войти
+            </button>
+
+            <!-- Разделитель -->
+            <div style="display: flex; align-items: center; margin: 30px 0;">
+                <div style="flex: 1; height: 1px; background: #e0e0e0;"></div>
+                <span style="padding: 0 15px; color: #888; font-size: 14px;">или</span>
+                <div style="flex: 1; height: 1px; background: #e0e0e0;"></div>
+            </div>
+
+            <!-- Альтернативные способы входа (заглушки) -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px;">
+                <button type="button"
+                        style="padding: 12px; background: white; border: 2px solid #e0e0e0; border-radius: 8px;
+                               color: #333; font-weight: 600; cursor: pointer; transition: all 0.3s;"
+                        onmouseover="this.style.borderColor='#1877f2'; this.style.color='#1877f2';"
+                        onmouseout="this.style.borderColor='#e0e0e0'; this.style.color='#333';">
+                    <span style="font-size: 18px;">G</span> Google
+                </button>
+                <button type="button"
+                        style="padding: 12px; background: white; border: 2px solid #e0e0e0; border-radius: 8px;
+                               color: #333; font-weight: 600; cursor: pointer; transition: all 0.3s;"
+                        onmouseover="this.style.borderColor='#1877f2'; this.style.color='#1877f2';"
+                        onmouseout="this.style.borderColor='#e0e0e0'; this.style.color='#333';">
+                    <span style="font-size: 18px;">f</span> Facebook
+                </button>
+            </div>
+        </form>
+
+        <!-- Ссылка на регистрацию -->
+        <div style="text-align: center; padding-top: 20px; border-top: 1px solid #e0e0e0;">
+            <p style="color: #666; margin-bottom: 15px;">Ещё нет аккаунта?</p>
+            <a href="{% url 'register' %}"
+               style="display: inline-block; padding: 14px 30px; background: white; color: #1877f2;
+                      text-decoration: none; border-radius: 8px; font-weight: 600; border: 2px solid #1877f2;
+                      transition: all 0.3s;"
+               onmouseover="this.style.background='#1877f2'; this.style.color='white';"
+               onmouseout="this.style.background='white'; this.style.color='#1877f2';">
+                Создать новый аккаунт
+            </a>
+        </div>
+
+    </div>
+
+    <!-- Информация внизу -->
+    <div style="text-align: center; margin-top: 30px; color: #888; font-size: 12px;">
+        <p>© 2024 SocialNet. Для продолжения работы требуется вход в систему.</p>
+    </div>
+</div>
+{% endblock %}

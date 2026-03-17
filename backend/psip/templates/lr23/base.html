@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Django LR23{% endblock %}</title>
+</head>
+<body>
+    <!-- Главное меню -->
+    <div style="background: #f0f0f0; padding: 15px; margin-bottom: 20px;">
+        <h2 style="margin: 0 0 10px 0;">Главное меню - PHP → Django Примеры</h2>
+        <div>
+            <a href="{% url 'lr23:example1' %}" style="margin-right: 10px;">Пример 1: include()</a>
+            <a href="{% url 'lr23:example2' %}" style="margin-right: 10px;">Пример 2: include с return</a>
+            <a href="{% url 'lr23:example3' %}" style="margin-right: 10px;">Пример 3: Инфо о файле</a>
+            <a href="{% url 'lr23:example4' %}" style="margin-right: 10px;">Пример 4: Чтение файла</a>
+            <a href="{% url 'lr23:datetime_example' %}" style="margin-right: 10px;">Дата и время</a>
+            <a href="{% url 'lr23:weekday_form' %}" style="margin-right: 10px;">День недели</a>
+        </div>
+    </div>
+
+    <!-- Содержимое страницы -->
+    <div style="padding: 0 15px;">
+        <h1>{% block heading %}Лабораторная работа 23{% endblock %}</h1>
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

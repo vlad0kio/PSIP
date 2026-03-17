@@ -1,0 +1,761 @@
+<aside class="sidebar">
+    <!-- Профиль пользователя -->
+    <div class="sidebar_profile_card">
+        <a href="{% url 'profile' user.username %}" class="sidebar_profile_link">
+            <div class="sidebar_profile_avatar_wrapper">
+                {% if user.profile.avatar %}
+                <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="sidebar_profile_avatar">
+                {% else %}
+                <div class="sidebar_profile_avatar sidebar_profile_avatar_default">
+                    {{ user.username|first|upper }}
+                </div>
+                {% endif %}
+                <span class="sidebar_online_indicator"></span>
+            </div>
+            <div class="sidebar_profile_info">
+                <span class="sidebar_profile_name">{{ user.get_full_name|default:user.username }}</span>
+                <span class="sidebar_profile_status">
+                    {% if user.profile.status %}
+                    {{ user.profile.status }}
+                    {% else %}
+                    Онлайн
+                    {% endif %}
+                </span>
+            </div>
+        </a>
+    </div>
+
+    <!-- Основная навигация -->
+    <nav class="sidebar_nav">
+        <div class="sidebar_nav_section">
+            <h3 class="sidebar_nav_section_title">Основное</h3>
+            <a href="{% url 'feed' %}" class="sidebar_nav_item {% if request.resolver_match.url_name == 'feed' %}sidebar_nav_item_active{% endif %}">
+                <span class="sidebar_nav_icon">📰</span>
+                <span class="sidebar_nav_text">Лента новостей</span>
+                {% if unread_count %}
+                <span class="sidebar_nav_badge">{{ unread_count }}</span>
+                {% endif %}
+            </a>
+
+            <a href="{% url 'profile' user.username %}" class="sidebar_nav_item {% if request.resolver_match.url_name == 'profile' %}sidebar_nav_item_active{% endif %}">
+                <span class="sidebar_nav_icon">👤</span>
+                <span class="sidebar_nav_text">Мой профиль</span>
+            </a>
+
+            <a href="{% url 'friends' %}" class="sidebar_nav_item {% if request.resolver_match.url_name == 'friends' %}sidebar_nav_item_active{% endif %}">
+                <span class="sidebar_nav_icon">👥</span>
+                <span class="sidebar_nav_text">Друзья</span>
+                {% if friend_requests_count %}
+                <span class="sidebar_nav_badge sidebar_nav_badge_friend_request">{{ friend_requests_count }}</span>
+                {% endif %}
+            </a>
+
+            <a href="{% url 'messages' %}" class="sidebar_nav_item {% if request.resolver_match.url_name == 'messages' %}sidebar_nav_item_active{% endif %}">
+                <span class="sidebar_nav_icon">💬</span>
+                <span class="sidebar_nav_text">Сообщения</span>
+                {% if unread_messages_count %}
+                <span class="sidebar_nav_badge sidebar_nav_badge_message">{{ unread_messages_count }}</span>
+                {% endif %}
+            </a>
+        </div>
+
+        <div class="sidebar_nav_section">
+            <h3 class="sidebar_nav_section_title">Медиа</h3>
+            <a href="{% url 'profile' user.username %}" class="sidebar_nav_item {% if request.resolver_match.url_name == 'photos' %}sidebar_nav_item_active{% endif %}">
+                <span class="sidebar_nav_icon">🖼️</span>
+                <span class="sidebar_nav_text">Фотографии</span>
+                {% if user.profile.photos_count %}
+                <span class="sidebar_nav_count">{{ user.profile.photos_count }}</span>
+                {% endif %}
+            </a>
+
+            <a href="{% url 'profile' user.username %}" class="sidebar_nav_item {% if request.resolver_match.url_name == 'videos' %}sidebar_nav_item_active{% endif %}">
+                <span class="sidebar_nav_icon">🎥</span>
+                <span class="sidebar_nav_text">Видео</span>
+            </a>
+
+            <a href="{% url 'profile' user.username %}" class="sidebar_nav_item {% if request.resolver_match.url_name == 'albums' %}sidebar_nav_item_active{% endif %}">
+                <span class="sidebar_nav_icon">📁</span>
+                <span class="sidebar_nav_text">Альбомы</span>
+            </a>
+        </div>
+
+        <div class="sidebar_nav_section">
+            <h3 class="sidebar_nav_section_title">Разное</h3>
+            <a href="{% url 'profile' user.username %}" class="sidebar_nav_item {% if request.resolver_match.url_name == 'groups' %}sidebar_nav_item_active{% endif %}">
+                <span class="sidebar_nav_icon">👪</span>
+                <span class="sidebar_nav_text">Группы</span>
+                {% if groups_count %}
+                <span class="sidebar_nav_count">{{ groups_count }}</span>
+                {% endif %}
+            </a>
+
+            <a href="{% url 'profile' user.username %}" class="sidebar_nav_item {% if request.resolver_match.url_name == 'events' %}sidebar_nav_item_active{% endif %}">
+                <span class="sidebar_nav_icon">📅</span>
+                <span class="sidebar_nav_text">События</span>
+                {% if events_count %}
+                <span class="sidebar_nav_badge">{{ events_count }}</span>
+                {% endif %}
+            </a>
+
+            <a href="{% url 'profile' user.username %}" class="sidebar_nav_item {% if request.resolver_match.url_name == 'saved' %}sidebar_nav_item_active{% endif %}">
+                <span class="sidebar_nav_icon">🔖</span>
+                <span class="sidebar_nav_text">Сохраненное</span>
+            </a>
+        </div>
+
+        <div class="sidebar_nav_section">
+            <h3 class="sidebar_nav_section_title">Настройки</h3>
+            <a href="{% url 'settings' %}" class="sidebar_nav_item {% if request.resolver_match.url_name == 'settings' %}sidebar_nav_item_active{% endif %}">
+                <span class="sidebar_nav_icon">⚙️</span>
+                <span class="sidebar_nav_text">Настройки</span>
+            </a>
+
+            <a href="{% url 'profile' user.username %}" class="sidebar_nav_item {% if request.resolver_match.url_name == 'help' %}sidebar_nav_item_active{% endif %}">
+                <span class="sidebar_nav_icon">❓</span>
+                <span class="sidebar_nav_text">Помощь</span>
+            </a>
+
+            <a href="#" class="sidebar_nav_item sidebar_theme_toggle" onclick="toggleTheme()">
+                <span class="sidebar_nav_icon">🌙</span>
+                <span class="sidebar_nav_text">Темная тема</span>
+            </a>
+        </div>
+
+        <form method="post" action="{% url 'logout' %}" class="sidebar_logout_form">
+            {% csrf_token %}
+            <button type="submit" class="sidebar_nav_item sidebar_logout">
+                <span class="sidebar_nav_icon">🚪</span>
+                <span class="sidebar_nav_text">Выйти</span>
+            </button>
+        </form>
+    </nav>
+
+    <!-- Быстрые действия -->
+    <div class="sidebar_quick_actions">
+        <button class="sidebar_quick_action_btn" onclick="openCreatePostModal()">
+            <span class="sidebar_quick_action_icon">✏️</span>
+            <span>Создать пост</span>
+        </button>
+        <button class="sidebar_quick_action_btn" onclick="searchFriends()">
+            <span class="sidebar_quick_action_icon">🔍</span>
+            <span>Поиск друзей</span>
+        </button>
+    </div>
+
+    <!-- Друзья онлайн -->
+    <div class="sidebar_online_friends">
+        <h4 class="sidebar_online_friends_title">
+            <span>Друзья онлайн</span>
+            <span class="sidebar_online_count">{{ online_friends_count }}</span>
+        </h4>
+        <div class="sidebar_online_friends_list">
+            {% for friend in online_friends %}
+            <a href="{% url 'profile' friend.username %}" class="sidebar_online_friend" title="{{ friend.get_full_name|default:friend.username }}">
+                <div class="sidebar_online_friend_avatar">
+                    {% if friend.profile.avatar %}
+                    <img src="{{ friend.profile.avatar.url }}" alt="{{ friend.username }}">
+                    {% else %}
+                    <div class="sidebar_avatar_default sidebar_avatar_tiny">{{ friend.username|first|upper }}</div>
+                    {% endif %}
+                    <span class="sidebar_online_indicator sidebar_online_indicator_small"></span>
+                </div>
+            </a>
+            {% empty %}
+            <p class="sidebar_no_online">Нет друзей онлайн</p>
+            {% endfor %}
+        </div>
+        <a href="{% url 'friends' %}" class="sidebar_view_all_friends">Все друзья →</a>
+    </div>
+
+    <!-- Рекомендации -->
+    <div class="sidebar_suggestions">
+        <h4 class="sidebar_suggestions_title">Рекомендации</h4>
+        <div class="sidebar_suggestions_list">
+            {% for suggestion in suggested_friends %}
+            <div class="sidebar_suggestion_item">
+                <a href="{% url 'profile' suggestion.username %}" class="sidebar_suggestion_user">
+                    {% if suggestion.profile.avatar %}
+                    <img src="{{ suggestion.profile.avatar.url }}" alt="{{ suggestion.username }}" class="sidebar_suggestion_avatar">
+                    {% else %}
+                    <div class="sidebar_avatar_default sidebar_avatar_tiny">{{ suggestion.username|first|upper }}</div>
+                    {% endif %}
+                    <span class="sidebar_suggestion_name">{{ suggestion.get_full_name|default:suggestion.username }}</span>
+                </a>
+                <button class="sidebar_add_friend_btn" onclick="addFriend({{ suggestion.id }})">➕</button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <div class="sidebar_footer">
+        <div class="sidebar_footer_links">
+            <a href="{% url 'profile' user.username %}" class="sidebar_footer_link">О проекте</a>
+            <span class="sidebar_footer_separator">·</span>
+            <a href="{% url 'profile' user.username %}" class="sidebar_footer_link">Конфиденциальность</a>
+            <span class="sidebar_footer_separator">·</span>
+            <a href="{% url 'profile' user.username %}" class="sidebar_footer_link">Условия</a>
+        </div>
+        <div class="sidebar_copyright">
+            © 2024 SocialNet
+        </div>
+    </div>
+</aside>
+
+<style>
+.sidebar {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 20px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e0 #f1f5f9;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Профиль */
+.sidebar_profile_card {
+    background: linear-gradient(145deg, #ffffff, #f8fafc);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 24px;
+    border: 1px solid #edf2f7;
+    transition: all 0.3s ease;
+}
+
+.sidebar_profile_card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.sidebar_profile_link {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.sidebar_profile_avatar_wrapper {
+    position: relative;
+    width: 64px;
+    height: 64px;
+}
+
+.sidebar_profile_avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(24, 119, 242, 0.2);
+}
+
+.sidebar_profile_avatar_default {
+    background: linear-gradient(135deg, #1877f2, #0e5a9e);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.sidebar_online_indicator {
+    position: absolute;
+    bottom: 3px;
+    right: 3px;
+    width: 14px;
+    height: 14px;
+    background: #31a24c;
+    border: 2px solid white;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.sidebar_online_indicator_small {
+    width: 10px;
+    height: 10px;
+    border-width: 2px;
+}
+
+.sidebar_profile_info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sidebar_profile_name {
+    font-weight: 700;
+    font-size: 18px;
+    color: #1e293b;
+    line-height: 1.2;
+}
+
+.sidebar_profile_status {
+    font-size: 13px;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Навигация */
+.sidebar_nav_section {
+    margin-bottom: 20px;
+}
+
+.sidebar_nav_section_title {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #64748b;
+    margin-bottom: 10px;
+    padding-left: 12px;
+    font-weight: 600;
+}
+
+.sidebar_nav_item {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    margin-bottom: 4px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #334155;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.sidebar_nav_item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background: #1877f2;
+    transform: scaleY(0);
+    transition: transform 0.2s ease;
+}
+
+.sidebar_nav_item:hover {
+    background: #f1f5f9;
+    padding-left: 16px;
+}
+
+.sidebar_nav_item:hover::before {
+    transform: scaleY(1);
+}
+
+.sidebar_nav_item_active {
+    background: #e8f0fe;
+    color: #1877f2;
+    font-weight: 500;
+}
+
+.sidebar_nav_item_active::before {
+    transform: scaleY(1);
+}
+
+.sidebar_nav_icon {
+    width: 28px;
+    font-size: 18px;
+    text-align: center;
+}
+
+.sidebar_nav_text {
+    flex: 1;
+}
+
+.sidebar_nav_badge {
+    background: #ff4444;
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 12px;
+    min-width: 20px;
+    text-align: center;
+}
+
+.sidebar_nav_badge_friend_request {
+    background: #ff8c00;
+    animation: sidebar_pulse 2s infinite;
+}
+
+.sidebar_nav_badge_message {
+    background: #1877f2;
+}
+
+@keyframes sidebar_pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 140, 0, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(255, 140, 0, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 140, 0, 0);
+    }
+}
+
+.sidebar_nav_count {
+    color: #64748b;
+    font-size: 12px;
+    background: #f1f5f9;
+    padding: 2px 6px;
+    border-radius: 12px;
+}
+
+/* Логаут */
+.sidebar_logout_form {
+    margin-top: 10px;
+}
+
+.sidebar_logout {
+    width: 100%;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    color: #ef4444;
+}
+
+.sidebar_logout:hover {
+    background: #fee2e2;
+}
+
+/* Быстрые действия */
+.sidebar_quick_actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.sidebar_quick_action_btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 12px 8px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 12px;
+    color: #334155;
+    transition: all 0.3s ease;
+}
+
+.sidebar_quick_action_btn:hover {
+    background: #1877f2;
+    color: white;
+    border-color: #1877f2;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(24, 119, 242, 0.2);
+}
+
+.sidebar_quick_action_icon {
+    font-size: 20px;
+}
+
+/* Друзья онлайн */
+.sidebar_online_friends {
+    margin: 20px 0;
+    padding: 16px;
+    background: #f8fafc;
+    border-radius: 16px;
+}
+
+.sidebar_online_friends_title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.sidebar_online_count {
+    background: #e2e8f0;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    color: #475569;
+}
+
+.sidebar_online_friends_list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.sidebar_online_friend {
+    position: relative;
+    text-decoration: none;
+}
+
+.sidebar_online_friend_avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.sidebar_online_friend_avatar:hover {
+    transform: scale(1.1);
+}
+
+.sidebar_online_friend_avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.sidebar_no_online {
+    font-size: 13px;
+    color: #94a3b8;
+    text-align: center;
+    padding: 10px;
+}
+
+.sidebar_view_all_friends {
+    display: block;
+    text-align: center;
+    font-size: 13px;
+    color: #1877f2;
+    text-decoration: none;
+    margin-top: 8px;
+}
+
+.sidebar_view_all_friends:hover {
+    text-decoration: underline;
+}
+
+/* Рекомендации */
+.sidebar_suggestions {
+    margin: 20px 0;
+}
+
+.sidebar_suggestions_title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 12px;
+}
+
+.sidebar_suggestions_list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar_suggestion_item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    border-radius: 10px;
+    transition: background 0.2s;
+}
+
+.sidebar_suggestion_item:hover {
+    background: #f1f5f9;
+}
+
+.sidebar_suggestion_user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+    flex: 1;
+}
+
+.sidebar_suggestion_avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.sidebar_avatar_default {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #1877f2, #0e5a9e);
+    color: white;
+    font-weight: 600;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.sidebar_avatar_tiny {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+}
+
+.sidebar_suggestion_name {
+    font-size: 13px;
+    font-weight: 500;
+    color: #334155;
+}
+
+.sidebar_add_friend_btn {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: #e2e8f0;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #475569;
+    transition: all 0.2s;
+}
+
+.sidebar_add_friend_btn:hover {
+    background: #1877f2;
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Футер */
+.sidebar_footer {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.sidebar_footer_links {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.sidebar_footer_link {
+    color: #64748b;
+    text-decoration: none;
+    font-size: 11px;
+    transition: color 0.2s;
+}
+
+.sidebar_footer_link:hover {
+    color: #1877f2;
+    text-decoration: underline;
+}
+
+.sidebar_footer_separator {
+    color: #cbd5e0;
+    font-size: 11px;
+}
+
+.sidebar_copyright {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 10px;
+}
+
+/* Анимации */
+@keyframes sidebar_slide_in {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.sidebar_nav_item {
+    animation: sidebar_slide_in 0.3s ease;
+    animation-fill-mode: both;
+}
+
+.sidebar_nav_item:nth-child(1) { animation-delay: 0.1s; }
+.sidebar_nav_item:nth-child(2) { animation-delay: 0.15s; }
+.sidebar_nav_item:nth-child(3) { animation-delay: 0.2s; }
+.sidebar_nav_item:nth-child(4) { animation-delay: 0.25s; }
+.sidebar_nav_item:nth-child(5) { animation-delay: 0.3s; }
+</style>
+
+<script>
+// Функции для сайдбара
+function toggleTheme() {
+    document.body.classList.toggle('dark-theme');
+    const themeBtn = document.querySelector('.sidebar_theme_toggle .sidebar_nav_text');
+    themeBtn.textContent = document.body.classList.contains('dark-theme') ? 'Светлая тема' : 'Темная тема';
+    document.querySelector('.sidebar_theme_toggle .sidebar_nav_icon').textContent =
+        document.body.classList.contains('dark-theme') ? '☀️' : '🌙';
+
+    // Сохраняем выбор в localStorage
+    localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
+}
+
+function searchFriends() {
+    window.location.href = "{% url 'search_friends' %}";
+}
+
+function addFriend(userId) {
+    fetch(`/friends/send/${userId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showNotification('Запрос на дружбу отправлен!', 'success');
+        } else {
+            showNotification(data.message || 'Ошибка', 'error');
+        }
+    });
+}
+
+// Проверяем сохраненную тему при загрузке
+document.addEventListener('DOMContentLoaded', function() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+        document.querySelector('.sidebar_theme_toggle .sidebar_nav_text').textContent = 'Светлая тема';
+        document.querySelector('.sidebar_theme_toggle .sidebar_nav_icon').textContent = '☀️';
+    }
+});
+</script>

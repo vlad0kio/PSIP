@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="ФИО, HTML, увлечения, учеба">
+    <meta name="description" content="HTML">
+    <title>Уланович Владислав Дмитриевич</title>
+    <style>
+        body {
+            background-image: url("images/back.jpg");
+            background-size: cover;
+            background-repeat: repeat;
+            background-position: center;
+
+            height: 100vh;
+            margin: 0; 
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 12pt;
+        }
+        .fio {
+            text-align: right;
+            font-size: 24pt; /* Размер заголовка 3 */
+        }
+        .course {
+            text-align: right;
+            font-weight: bold;
+            color: rgb(255, 255, 255);
+        }
+        .group {
+            color: rgb(0, 96, 128);
+            font-weight: bold;
+        }
+        .hobbies {
+            text-align: center;
+        }
+        .yellow {
+          background-color: yellow; /* Цвет фона ячейки */
+        }
+        .green {
+          background-color: rgb(0, 255, 8); /* Цвет фона ячейки */
+        }
+        .iimg {
+            display: block;
+            margin: 0 auto;
+            width: 100px;
+            height: 200px;
+            border: 3px solid rgb(0, 8, 255);
+        }
+        img{
+          width: 100px;
+          height: 200px;
+        }
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 5px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h3 class="fio">Уланович Владислав Дмитриевич</h3> <!-- -->
+    <p id= "курс" class="course">Курс: <sub>3</sub></p>
+    <p class="group">Группа: ПЗТ-40</p>
+    <p class="hobbies"><u>Мои увлечения: программирование, спорт</u></p>
+
+    <ol type="I" start="4">
+        <li>Зима</li>
+        <li>Весна</li>
+        <li>Лето</li>
+    </ol>
+
+    <img class="iimg" src="images/1.jpg" alt="Frieren">
+
+    <a href="page1.html">
+      <img src="images/1.jpg" alt="Frieren">
+    </a>
+    
+    <a href="#курс">Курс:/p></a>
+
+    <table>
+          <tr>
+              <th rowspan="2"></th>
+              <th colspan="2" class="yellow">Показатели</th>
+              <th rowspan="2" class="green">Проценты</th>
+          </tr>
+          <tr>
+              <td class="yellow">Рост</td>
+              <td class="yellow">Вес</td>
+          </tr>
+          <tr>
+            <td>Мужчины</td>
+            <td></td>
+            <td></td>
+        </tr>
+  </table>
+
+    <form action="submit.html" method="post">
+        <h2>Авторизация</h2>
+        <label for="username">Имя пользователя:</label>
+        <input type="text" id="username" name="username"><br>
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" name="password"><br>
+        <label>Запомнить меня:</label>
+        <input type="checkbox" id="choose" name="cooshing" value="Yes/no"><br>
+        <button type="reset">Войти</button>
+        <button type="reset">Отмена</button>
+    </form>
+</body>
+</html>

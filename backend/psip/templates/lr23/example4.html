@@ -1,0 +1,16 @@
+{% extends "lr23/base.html" %}
+{% load static %}
+
+{% block title %}Чтение строк из файла{% endblock %}
+
+{% block content %}
+    <h2>Чтение строк из файла</h2>
+    
+    {% if lines %}
+        {% for line in lines %}
+            {{ line }}<br>
+        {% endfor %}
+    {% else %}
+        <p>Файл не найден или пуст</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "lr23/base.html" %}
+{% load static %}
+
+{% block title %}Дата и время{% endblock %}
+
+{% block content %}
+    <h2>Текущая дата и время</h2>
+    
+    <p>Дата в кратком формате: {{ date_short }}</p>
+    <p>Время: {{ time }}</p>
+    <p>День недели: {{ weekday }}</p>
+    
+    <hr>
+    
+    <h3>Использование функции get_russian_weekday:</h3>
+    <p>Сегодня: {{ now|date:"d.m.Y" }} - {{ weekday }}</p>
+    
+    <a href="{% url 'lr23:weekday_form' %}">Перейти к форме определения дня недели</a>
+{% endblock %}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Ввод данных</title>
+</head>
+<body>
+    <h1>Задание №1: Введите данные</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div>
+            <label for="id_user_name">Ваше имя:</label><br>
+            <input type="text" name="user_name" id="id_user_name" required>
+        </div>
+
+        <div style="margin-top: 10px;">
+            <label>Пол:</label><br>
+            <input type="radio" name="gender" id="id_gender_m" value="М" required>
+            <label for="id_gender_m">М (Мужской)</label><br>
+            <input type="radio" name="gender" id="id_gender_f" value="Ж" required>
+            <label for="id_gender_f">Ж (Женский)</label>
+        </div>
+
+        <div style="margin-top: 10px;">
+            <label for="id_maiden_name">Ваша девичья фамилия:</label><br>
+            <input type="text" name="maiden_name" id="id_maiden_name" required>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <button type="submit">Отправить (Submit)</button>
+        </div>
+    </form>
+
+    <p><em>Данные отправляются методом POST</em></p>
+
+    <div style="margin-top: 30px;">
+        <a href="/abonents/">Перейти к базе абонентов</a> |
+        <a href="/session/">Перейти к сессии</a>
+    </div>
+</body>
+</html>

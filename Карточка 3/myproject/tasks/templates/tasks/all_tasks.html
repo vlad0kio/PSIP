@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block title %}Все задания - Лабораторная работа{% endblock %}
+
+{% block content %}
+<div class="variant-info">
+    Вариант №{{ n }}
+</div>
+
+<!-- Задание 2: Дни недели -->
+<div class="task-card">
+    <h2 class="task-title">Задание 2: Массив дней недели</h2>
+    <div class="info-item">
+        <div class="info-label">Текущий день недели:</div>
+        <div class="info-value">{{ current_day }}</div>
+    </div>
+</div>
+
+<!-- Задание 3: Цикл while -->
+<div class="task-card">
+    <h2 class="task-title">Задание 3: Цикл while ({{ n }}+5 = {{ n|add:"5" }} раз)</h2>
+    <div class="info-grid">
+        {% for result in while_results %}
+        <div class="info-item">
+            <div class="info-value">{{ result }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Задание 4: Массивы -->
+<div class="task-card">
+    <h2 class="task-title">Задание 4: Продукты питания</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Продукт</th>
+                <th>Цена (руб.)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ product.price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="info-grid" style="margin-top: 20px;">
+        <div class="info-item">
+            <div class="info-label">Цена молока:</div>
+            <div class="info-value">{{ milk_price }} руб.</div>
+        </div>
+        <div class="info-item">
+            <div class="info-label">Общая стоимость:</div>
+            <div class="info-value">{{ total_price }} руб.</div>
+        </div>
+    </div>
+</div>
+
+<!-- Задание 5: Строки -->
+<div class="task-card">
+    <h2 class="task-title">Задание 5: Работа со строками</h2>
+    <div class="info-grid">
+        <div class="info-item">
+            <div class="info-label">Исходная строка S1:</div>
+            <div class="info-value">"{{ s1 }}"</div>
+        </div>
+        <div class="info-item">
+            <div class="info-label">Длина строки S1:</div>
+            <div class="info-value">{{ length_s1 }} символов</div>
+        </div>
+        <div class="info-item">
+            <div class="info-label">{{ n }}-й символ:</div>
+            <div class="info-value">'{{ nth_char }}' (ASCII: {{ ascii_code }})</div>
+        </div>
+        <div class="info-item">
+            <div class="info-label">После замены 'ю' на '№':</div>
+            <div class="info-value">"{{ s1_modified }}"</div>
+        </div>
+    </div>
+</div>
+
+<!-- Задание 6: Пользовательская функция -->
+<div class="task-card">
+    <h2 class="task-title">Задание 6: Пользовательская функция</h2>
+    <div class="info-item">
+        <div class="info-label">Формула:</div>
+        <div class="info-value">F(x) = -x^2 при x ≤ 7, F(x) = 2^x/x^2-9 при x > 7</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>x</th>
+                <th>Результат F(x)</th>
+                <th>Статус</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in func_results %}
+            <tr>
+                <td>{{ result.x }}</td>
+                <td>
+                    {% if result.error %}
+                        <span style="color: #dc3545;">{{ result.result }}</span>
+                    {% else %}
+                        {{ result.result }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if result.error %}
+                        <span class="badge badge-danger">Ошибка</span>
+                    {% else %}
+                        <span class="badge badge-success">Успешно</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

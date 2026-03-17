@@ -1,0 +1,830 @@
+<header class="partial_header">
+    <div class="partial_header_container">
+        <!-- Левая часть: Логотип и бренд -->
+        <div class="partial_header_left">
+            <a href="{% url 'feed' %}" class="partial_header_logo">
+                <span class="partial_header_logo_icon">🌐</span>
+                <span class="partial_header_logo_text">SocialNet</span>
+            </a>
+        </div>
+
+        <!-- Центр: Поиск -->
+        <div class="partial_header_center">
+            <form class="partial_header_search_form" method="GET" action="{% url 'search' %}">
+                <button type="submit" class="partial_header_search_btn">
+                    <span class="partial_header_search_icon">🔍</span>
+                </button>
+                <input type="text"
+                       name="q"
+                       class="partial_header_search_input"
+                       placeholder="Поиск людей, постов и групп..."
+                       value="{{ request.GET.q }}"
+                       autocomplete="off">
+                {% if request.GET.q %}
+                <button type="button" class="partial_header_search_clear" onclick="partial_header_clearSearch()">✕</button>
+                {% endif %}
+            </form>
+        </div>
+
+        <!-- Правая часть: Навигация и профиль -->
+        <div class="partial_header_right">
+            <nav class="partial_header_nav_icons">
+                <!-- Лента -->
+                <a href="{% url 'feed' %}" class="partial_header_nav_icon {% if request.resolver_match.url_name == 'feed' %}partial_header_nav_icon_active{% endif %}"
+                   data-tooltip="Лента новостей">
+                    <span class="partial_header_nav_icon_emoji">🏠</span>
+                    <span class="partial_header_nav_icon_label">Главная</span>
+                </a>
+
+                <!-- Друзья -->
+                <a href="{% url 'friends' %}" class="partial_header_nav_icon {% if request.resolver_match.url_name == 'friends' %}partial_header_nav_icon_active{% endif %}"
+                   data-tooltip="Друзья">
+                    <span class="partial_header_nav_icon_emoji">👥</span>
+                    <span class="partial_header_nav_icon_label">Друзья</span>
+                    {% if friend_requests_count %}
+                    <span class="partial_header_nav_badge">{{ friend_requests_count }}</span>
+                    {% endif %}
+                </a>
+
+                <!-- Сообщения -->
+                <a href="{% url 'messages' %}" class="partial_header_nav_icon {% if request.resolver_match.url_name == 'messages' %}partial_header_nav_icon_active{% endif %}"
+                   data-tooltip="Сообщения">
+                    <span class="partial_header_nav_icon_emoji">💬</span>
+                    <span class="partial_header_nav_icon_label">Чаты</span>
+                    {% if unread_messages_count %}
+                    <span class="partial_header_nav_badge partial_header_nav_badge_message">{{ unread_messages_count }}</span>
+                    {% endif %}
+                </a>
+
+                <!-- Уведомления -->
+                <a href="{% url 'notifications' %}" class="partial_header_nav_icon {% if request.resolver_match.url_name == 'notifications' %}partial_header_nav_icon_active{% endif %}"
+                   data-tooltip="Уведомления">
+                    <span class="partial_header_nav_icon_emoji">🔔</span>
+                    <span class="partial_header_nav_icon_label">Уведомления</span>
+                    {% if unread_notifications_count %}
+                    <span class="partial_header_nav_badge partial_header_nav_badge_notification">{{ unread_notifications_count }}</span>
+                    {% endif %}
+                </a>
+
+                <!-- Профиль пользователя с дропдауном -->
+                <div class="partial_header_profile_dropdown">
+                    <button class="partial_header_profile_button" onclick="partial_header_toggleProfileMenu()">
+                        <div class="partial_header_profile_avatar_mini">
+                            {% if user.profile.avatar %}
+                            <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}">
+                            {% else %}
+                            <div class="partial_header_avatar_default partial_header_avatar_mini">{{ user.username|first|upper }}</div>
+                            {% endif %}
+                        </div>
+                        <span class="partial_header_profile_name">{{ user.get_full_name|default:user.username|truncatechars:15 }}</span>
+                        <span class="partial_header_dropdown_arrow">▼</span>
+                    </button>
+
+                    <div class="partial_header_dropdown_menu" id="partialHeaderProfileMenu">
+                        <!-- Шапка профиля в меню -->
+                        <div class="partial_header_dropdown_header">
+                            <div class="partial_header_dropdown_avatar">
+                                {% if user.profile.avatar %}
+                                <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}">
+                                {% else %}
+                                <div class="partial_header_avatar_default partial_header_avatar_small">{{ user.username|first|upper }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="partial_header_dropdown_user_info">
+                                <strong>{{ user.get_full_name|default:user.username }}</strong>
+                                <span>@{{ user.username }}</span>
+                            </div>
+                        </div>
+
+                        <div class="partial_header_dropdown_divider"></div>
+
+                        <a href="{% url 'profile' user.username %}" class="partial_header_dropdown_item">
+                            <span class="partial_header_dropdown_icon">👤</span>
+                            <span class="partial_header_dropdown_text">Мой профиль</span>
+                        </a>
+
+                        <a href="{% url 'settings' %}" class="partial_header_dropdown_item">
+                            <span class="partial_header_dropdown_icon">⚙️</span>
+                            <span class="partial_header_dropdown_text">Настройки</span>
+                        </a>
+
+                        <a href="{% url 'saved' %}" class="partial_header_dropdown_item">
+                            <span class="partial_header_dropdown_icon">🔖</span>
+                            <span class="partial_header_dropdown_text">Сохраненное</span>
+                        </a>
+
+                        <div class="partial_header_dropdown_divider"></div>
+
+                        <a href="#" class="partial_header_dropdown_item partial_header_theme_toggle" onclick="partial_header_toggleTheme()">
+                            <span class="partial_header_dropdown_icon">🌙</span>
+                            <span class="partial_header_dropdown_text">Темная тема</span>
+                        </a>
+
+                        <a href="{% url 'help' %}" class="partial_header_dropdown_item">
+                            <span class="partial_header_dropdown_icon">❓</span>
+                            <span class="partial_header_dropdown_text">Помощь</span>
+                        </a>
+
+                        <div class="partial_header_dropdown_divider"></div>
+
+                        <form method="post" action="{% url 'logout' %}" class="partial_header_logout_form">
+                            {% csrf_token %}
+                            <button type="submit" class="partial_header_dropdown_item partial_header_logout_btn">
+                                <span class="partial_header_dropdown_icon">🚪</span>
+                                <span class="partial_header_dropdown_text">Выйти</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Мобильное меню (будет видно только на маленьких экранах) -->
+    <div class="partial_header_mobile_menu">
+        <a href="{% url 'feed' %}" class="partial_header_mobile_nav_item {% if request.resolver_match.url_name == 'feed' %}partial_header_mobile_nav_item_active{% endif %}">
+            <span class="partial_header_mobile_icon">🏠</span>
+            <span class="partial_header_mobile_label">Лента</span>
+        </a>
+        <a href="{% url 'friends' %}" class="partial_header_mobile_nav_item {% if request.resolver_match.url_name == 'friends' %}partial_header_mobile_nav_item_active{% endif %}">
+            <span class="partial_header_mobile_icon">👥</span>
+            <span class="partial_header_mobile_label">Друзья</span>
+            {% if friend_requests_count %}
+            <span class="partial_header_mobile_badge">{{ friend_requests_count }}</span>
+            {% endif %}
+        </a>
+        <a href="{% url 'messages' %}" class="partial_header_mobile_nav_item {% if request.resolver_match.url_name == 'messages' %}partial_header_mobile_nav_item_active{% endif %}">
+            <span class="partial_header_mobile_icon">💬</span>
+            <span class="partial_header_mobile_label">Чаты</span>
+            {% if unread_messages_count %}
+            <span class="partial_header_mobile_badge">{{ unread_messages_count }}</span>
+            {% endif %}
+        </a>
+        <a href="{% url 'notifications' %}" class="partial_header_mobile_nav_item {% if request.resolver_match.url_name == 'notifications' %}partial_header_mobile_nav_item_active{% endif %}">
+            <span class="partial_header_mobile_icon">🔔</span>
+            <span class="partial_header_mobile_label">Увед.</span>
+            {% if unread_notifications_count %}
+            <span class="partial_header_mobile_badge">{{ unread_notifications_count }}</span>
+            {% endif %}
+        </a>
+        <button class="partial_header_mobile_nav_item" onclick="partial_header_toggleMobileSearch()">
+            <span class="partial_header_mobile_icon">🔍</span>
+            <span class="partial_header_mobile_label">Поиск</span>
+        </button>
+    </div>
+</header>
+
+<style>
+/* Основные стили хедера */
+.partial_header {
+    background: white;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.partial_header_container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+/* Логотип */
+.partial_header_logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: transform 0.2s;
+}
+
+.partial_header_logo:hover {
+    transform: scale(1.05);
+}
+
+.partial_header_logo_icon {
+    font-size: 32px;
+    animation: partial_header_spin 20s linear infinite;
+}
+
+@keyframes partial_header_spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.partial_header_logo_text {
+    font-size: 22px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #1877f2, #0e5a9e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Поиск */
+.partial_header_center {
+    flex: 1;
+    max-width: 600px;
+    margin: 0 20px;
+}
+
+.partial_header_search_form {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.partial_header_search_input {
+    width: 100%;
+    padding: 12px 20px 12px 45px;
+    border: 2px solid transparent;
+    border-radius: 30px;
+    background: #f0f2f5;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+.partial_header_search_input:focus {
+    outline: none;
+    background: white;
+    border-color: #1877f2;
+    box-shadow: 0 4px 12px rgba(24, 119, 242, 0.15);
+}
+
+.partial_header_search_btn {
+    position: absolute;
+    left: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.partial_header_search_btn:hover {
+    opacity: 1;
+}
+
+.partial_header_search_clear {
+    position: absolute;
+    right: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #64748b;
+    padding: 4px 8px;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.partial_header_search_clear:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+/* Навигационные иконки */
+.partial_header_nav_icons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.partial_header_nav_icon {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: #64748b;
+    transition: all 0.2s ease;
+}
+
+.partial_header_nav_icon:hover {
+    background: #f1f5f9;
+    color: #1877f2;
+    transform: translateY(-2px);
+}
+
+.partial_header_nav_icon_active {
+    color: #1877f2;
+    background: #e8f0fe;
+}
+
+.partial_header_nav_icon_emoji {
+    font-size: 22px;
+    margin-bottom: 2px;
+}
+
+.partial_header_nav_icon_label {
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.partial_header_nav_badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    min-width: 18px;
+    height: 18px;
+    background: #ff4444;
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    border: 2px solid white;
+    animation: partial_header_pulse 2s infinite;
+}
+
+.partial_header_nav_badge_message {
+    background: #1877f2;
+}
+
+.partial_header_nav_badge_notification {
+    background: #ff8c00;
+}
+
+/* Профиль дропдаун */
+.partial_header_profile_dropdown {
+    position: relative;
+    margin-left: 8px;
+}
+
+.partial_header_profile_button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px 6px 6px;
+    background: #f1f5f9;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.partial_header_profile_button:hover {
+    background: #e2e8f0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.partial_header_profile_avatar_mini {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #1877f2;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.partial_header_profile_avatar_mini img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.partial_header_avatar_default {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #1877f2, #0e5a9e);
+    color: white;
+    font-weight: 600;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.partial_header_avatar_mini {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+}
+
+.partial_header_avatar_small {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+}
+
+.partial_header_profile_name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e293b;
+    max-width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.partial_header_dropdown_arrow {
+    font-size: 12px;
+    color: #64748b;
+    transition: transform 0.2s;
+}
+
+.partial_header_profile_dropdown:hover .partial_header_dropdown_arrow {
+    transform: rotate(180deg);
+}
+
+/* Выпадающее меню */
+.partial_header_dropdown_menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: 280px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1001;
+}
+
+.partial_header_profile_dropdown:hover .partial_header_dropdown_menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.partial_header_dropdown_header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    border-radius: 16px 16px 0 0;
+}
+
+.partial_header_dropdown_avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.partial_header_dropdown_avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.partial_header_dropdown_user_info {
+    flex: 1;
+}
+
+.partial_header_dropdown_user_info strong {
+    display: block;
+    font-size: 16px;
+    color: #1e293b;
+    margin-bottom: 2px;
+}
+
+.partial_header_dropdown_user_info span {
+    font-size: 13px;
+    color: #64748b;
+}
+
+.partial_header_dropdown_item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    color: #334155;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.partial_header_dropdown_item:hover {
+    background: #f1f5f9;
+    padding-left: 28px;
+}
+
+.partial_header_dropdown_icon {
+    font-size: 18px;
+    width: 24px;
+    text-align: center;
+}
+
+.partial_header_dropdown_text {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.partial_header_dropdown_divider {
+    height: 1px;
+    background: #e2e8f0;
+    margin: 8px 0;
+}
+
+.partial_header_logout_btn {
+    width: 100%;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #ef4444;
+}
+
+.partial_header_logout_btn:hover {
+    background: #fee2e2;
+}
+
+/* Мобильное меню */
+.partial_header_mobile_menu {
+    display: none;
+    background: white;
+    border-top: 1px solid #e2e8f0;
+    padding: 8px;
+    justify-content: space-around;
+}
+
+.partial_header_mobile_nav_item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #64748b;
+    padding: 6px 12px;
+    border-radius: 12px;
+    transition: all 0.2s;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.partial_header_mobile_nav_item_active {
+    color: #1877f2;
+    background: #e8f0fe;
+}
+
+.partial_header_mobile_icon {
+    font-size: 20px;
+    margin-bottom: 2px;
+}
+
+.partial_header_mobile_label {
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.partial_header_mobile_badge {
+    position: absolute;
+    top: 0;
+    right: 4px;
+    min-width: 16px;
+    height: 16px;
+    background: #ff4444;
+    color: white;
+    font-size: 9px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 3px;
+    border: 2px solid white;
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+    .partial_header_logo_text {
+        display: none;
+    }
+
+    .partial_header_nav_icon_label {
+        display: none;
+    }
+
+    .partial_header_profile_name {
+        display: none;
+    }
+
+    .partial_header_profile_button {
+        padding: 6px;
+    }
+}
+
+@media (max-width: 768px) {
+    .partial_header_center {
+        display: none;
+    }
+
+    .partial_header_mobile_menu {
+        display: flex;
+    }
+
+    .partial_header_nav_icons {
+        gap: 4px;
+    }
+
+    .partial_header_profile_dropdown {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .partial_header_container {
+        padding: 8px 12px;
+    }
+
+    .partial_header_nav_icons {
+        gap: 2px;
+    }
+
+    .partial_header_nav_icon {
+        padding: 6px 8px;
+    }
+}
+
+/* Анимации */
+@keyframes partial_header_pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 6px rgba(255, 68, 68, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 68, 68, 0);
+    }
+}
+
+/* Поддержка темной темы */
+@media (prefers-color-scheme: dark) {
+    .partial_header {
+        background: rgba(30, 41, 59, 0.95);
+    }
+
+    .partial_header_search_input {
+        background: #334155;
+        color: #f1f5f9;
+    }
+
+    .partial_header_search_input::placeholder {
+        color: #94a3b8;
+    }
+
+    .partial_header_profile_button {
+        background: #334155;
+    }
+
+    .partial_header_profile_name {
+        color: #f1f5f9;
+    }
+
+    .partial_header_dropdown_menu {
+        background: #1e293b;
+    }
+
+    .partial_header_dropdown_header {
+        background: linear-gradient(135deg, #2d3a4f, #1e293b);
+    }
+
+    .partial_header_dropdown_user_info strong {
+        color: #f1f5f9;
+    }
+
+    .partial_header_dropdown_item {
+        color: #cbd5e0;
+    }
+
+    .partial_header_dropdown_item:hover {
+        background: #334155;
+    }
+
+    .partial_header_mobile_menu {
+        background: #1e293b;
+        border-top-color: #334155;
+    }
+}
+</style>
+
+<script>
+let partial_header_profileMenuVisible = false;
+
+function partial_header_toggleProfileMenu() {
+    const menu = document.getElementById('partialHeaderProfileMenu');
+    partial_header_profileMenuVisible = !partial_header_profileMenuVisible;
+
+    if (partial_header_profileMenuVisible) {
+        menu.style.opacity = '1';
+        menu.style.visibility = 'visible';
+        menu.style.transform = 'translateY(0)';
+    } else {
+        menu.style.opacity = '0';
+        menu.style.visibility = 'hidden';
+        menu.style.transform = 'translateY(-10px)';
+    }
+}
+
+function partial_header_clearSearch() {
+    const searchInput = document.querySelector('.partial_header_search_input');
+    searchInput.value = '';
+    searchInput.focus();
+
+    // Скрываем кнопку очистки
+    const clearBtn = document.querySelector('.partial_header_search_clear');
+    if (clearBtn) {
+        clearBtn.style.display = 'none';
+    }
+}
+
+function partial_header_toggleMobileSearch() {
+    const searchBar = document.querySelector('.partial_header_center');
+    const mobileMenu = document.querySelector('.partial_header_mobile_menu');
+
+    if (searchBar.style.display === 'block') {
+        searchBar.style.display = 'none';
+        mobileMenu.style.display = 'flex';
+    } else {
+        searchBar.style.display = 'block';
+        searchBar.style.position = 'absolute';
+        searchBar.style.top = '60px';
+        searchBar.style.left = '0';
+        searchBar.style.right = '0';
+        searchBar.style.padding = '10px';
+        searchBar.style.background = 'white';
+        searchBar.style.zIndex = '999';
+        mobileMenu.style.display = 'none';
+
+        // Фокус на поиск
+        setTimeout(() => {
+            document.querySelector('.partial_header_search_input').focus();
+        }, 100);
+    }
+}
+
+// Закрытие дропдауна при клике вне
+document.addEventListener('click', function(event) {
+    const profileDropdown = document.querySelector('.partial_header_profile_dropdown');
+    const menu = document.getElementById('partialHeaderProfileMenu');
+
+    if (!profileDropdown.contains(event.target) && partial_header_profileMenuVisible) {
+        menu.style.opacity = '0';
+        menu.style.visibility = 'hidden';
+        menu.style.transform = 'translateY(-10px)';
+        partial_header_profileMenuVisible = false;
+    }
+});
+
+// Обработка поиска
+document.querySelector('.partial_header_search_input')?.addEventListener('input', function(e) {
+    const clearBtn = document.querySelector('.partial_header_search_clear');
+    if (clearBtn) {
+        clearBtn.style.display = e.target.value.length > 0 ? 'block' : 'none';
+    }
+});
+
+// Тема (синхронизация с сайдбаром)
+function partial_header_toggleTheme() {
+    document.body.classList.toggle('dark-theme');
+    const themeBtn = document.querySelector('.partial_header_theme_toggle .partial_header_dropdown_text');
+    const themeIcon = document.querySelector('.partial_header_theme_toggle .partial_header_dropdown_icon');
+
+    if (document.body.classList.contains('dark-theme')) {
+        themeBtn.textContent = 'Светлая тема';
+        themeIcon.textContent = '☀️';
+        localStorage.setItem('theme', 'dark');
+    } else {
+        themeBtn.textContent = 'Темная тема';
+        themeIcon.textContent = '🌙';
+        localStorage.setItem('theme', 'light');
+    }
+}
+
+// Загрузка сохраненной темы
+document.addEventListener('DOMContentLoaded', function() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+        const themeBtn = document.querySelector('.partial_header_theme_toggle .partial_header_dropdown_text');
+        const themeIcon = document.querySelector('.partial_header_theme_toggle .partial_header_dropdown_icon');
+        if (themeBtn) {
+            themeBtn.textContent = 'Светлая тема';
+            themeIcon.textContent = '☀️';
+        }
+    }
+});
+</script>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Телефонный узел связи</title>
+</head>
+<body>
+    <h1>Телефонный узел связи</h1>
+
+    <h2>Задание 4.2: Результат выборки</h2>
+    <p>Абоненты на ул. Советской с цифрой 5 в телефоне:</p>
+
+    {% if filtered_abonents %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Фамилия</th>
+                    <th>Имя</th>
+                    <th>Отчество</th>
+                    <th>Дата рождения</th>
+                    <th>Телефон</th>
+                    <th>Адрес</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for abonent in filtered_abonents %}
+                <tr>
+                    <td>{{ abonent.last_name }}</td>
+                    <td>{{ abonent.first_name }}</td>
+                    <td>{{ abonent.patronymic }}</td>
+                    <td>{{ abonent.birth_date }}</td>
+                    <td>{{ abonent.phone }}</td>
+                    <td>{{ abonent.address }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Нет абонентов, соответствующих критериям выборки.</p>
+    {% endif %}
+
+    <h2>Задание 4.3: Все абоненты</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Отчество</th>
+                <th>Дата рождения</th>
+                <th>Телефон</th>
+                <th>Адрес</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for abonent in all_abonents %}
+            <tr>
+                <td>{{ abonent.last_name }}</td>
+                <td>{{ abonent.first_name }}</td>
+                <td>{{ abonent.patronymic }}</td>
+                <td>{{ abonent.birth_date }}</td>
+                <td>{{ abonent.phone }}</td>
+                <td>{{ abonent.address }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p><a href="/">На главную</a></p>
+</body>
+</html>

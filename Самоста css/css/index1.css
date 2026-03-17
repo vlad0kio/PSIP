@@ -1,0 +1,10 @@
+/* Стили для посещенных ссылок */
+a:visited {
+    color: red;
+  }
+  
+  /* Стили для активных ссылок */
+a:active {
+    color: blue;
+    text-decoration: none; /* Снятие подчёркивания */
+  }

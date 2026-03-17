@@ -1,0 +1,26 @@
+{% extends "lr23/base.html" %}
+{% load static %}
+
+{% block title %}Определение дня недели{% endblock %}
+
+{% block content %}
+    <h2>Определение дня недели</h2>
+    
+    <p>Текущая дата: {{ today }}</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <label for="date">Введите дату (формат ГГГГ-ММ-ДД или ДД.ММ.ГГГГ):</label>
+        <input type="text" id="date" name="date" value="{{ today }}" required>
+        <button type="submit">Определить день недели</button>
+    </form>
+    
+    {% if weekday_russian %}
+        <hr>
+        <h3>Результат:</h3>
+        <p>Сегодня день недели - {{ weekday_russian }}</p>
+    {% endif %}
+    
+    <br>
+    <a href="{% url 'lr23:datetime_example' %}">Вернуться к примеру с датой</a>
+{% endblock %}

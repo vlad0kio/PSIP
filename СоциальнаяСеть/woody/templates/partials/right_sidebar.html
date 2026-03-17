@@ -1,0 +1,1064 @@
+<aside class="right-sidebar">
+    <!-- Погода / Дата -->
+    <div class="weather-widget">
+        <div class="weather-icon">☀️</div>
+        <div class="weather-info">
+            <span class="weather-temp">+18°</span>
+            <span class="weather-city">Москва</span>
+        </div>
+        <div class="date-info">
+            <span class="current-date">{{ current_date|date:"d F Y" }}</span>
+        </div>
+    </div>
+
+    <!-- Друзья онлайн -->
+    <div class="widget">
+        <div class="widget-header">
+            <h3 class="widget-title">
+                <span class="widget-icon">👥</span>
+                Друзья онлайн
+            </h3>
+            <span class="widget-badge">{{ online_friends_count|default:"0" }}</span>
+        </div>
+
+        <div class="online-friends-list">
+            {% for friend in online_friends|slice:":6" %}
+            <a href="{% url 'profile' friend.username %}" class="online-friend-item">
+                <div class="online-friend-avatar">
+                    {% if friend.profile.avatar %}
+                    <img src="{{ friend.profile.avatar.url }}" alt="{{ friend.username }}">
+                    {% else %}
+                    <div class="default-avatar tiny">{{ friend.username|first|upper }}</div>
+                    {% endif %}
+                    <span class="online-indicator"></span>
+                </div>
+                <div class="online-friend-info">
+                    <span class="online-friend-name">{{ friend.get_full_name|default:friend.username }}</span>
+                    <span class="online-friend-status">онлайн</span>
+                </div>
+            </a>
+            {% empty %}
+            <div class="empty-state">
+                <div class="empty-icon">😴</div>
+                <p class="empty-text">Нет друзей онлайн</p>
+                <a href="{% url 'friends' %}" class="empty-link">Найти друзей</a>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if online_friends|length > 6 %}
+        <a href="{% url 'friends' %}?online=true" class="widget-view-all">
+            Показать всех ({{ online_friends|length }})
+        </a>
+        {% endif %}
+    </div>
+
+    <!-- Заявки в друзья -->
+    <div class="widget">
+        <div class="widget-header">
+            <h3 class="widget-title">
+                <span class="widget-icon">🤝</span>
+                Заявки в друзья
+            </h3>
+            {% if friend_requests_count %}
+            <span class="widget-badge accent">{{ friend_requests_count }}</span>
+            {% endif %}
+        </div>
+
+        <div class="friend-requests-list">
+            {% for request in friend_requests|slice:":3" %}
+            <div class="friend-request-item">
+                <a href="{% url 'profile' request.from_user.username %}" class="request-user">
+                    {% if request.from_user.profile.avatar %}
+                    <img src="{{ request.from_user.profile.avatar.url }}" alt="" class="request-avatar">
+                    {% else %}
+                    <div class="default-avatar tiny">{{ request.from_user.username|first|upper }}</div>
+                    {% endif %}
+                    <div class="request-info">
+                        <span class="request-name">{{ request.from_user.get_full_name|default:request.from_user.username }}</span>
+                        <span class="request-time">{{ request.created_at|timesince }} назад</span>
+                    </div>
+                </a>
+                <div class="request-actions">
+                    <button class="action-btn accept" onclick="acceptFriendRequest({{ request.id }})">✓</button>
+                    <button class="action-btn reject" onclick="rejectFriendRequest({{ request.id }})">✗</button>
+                </div>
+            </div>
+            {% empty %}
+            <div class="empty-state small">
+                <p class="empty-text">Нет новых заявок</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if friend_requests|length > 3 %}
+        <a href="{% url 'friends' %}" class="widget-view-all">Все заявки</a>
+        {% endif %}
+    </div>
+
+    <!-- Ближайшие события -->
+    <div class="widget">
+        <div class="widget-header">
+            <h3 class="widget-title">
+                <span class="widget-icon">📅</span>
+                Ближайшие события
+            </h3>
+            <span class="widget-badge">{{ events_count|default:"2" }}</span>
+        </div>
+
+        <div class="events-list">
+            <div class="event-item">
+                <div class="event-date">
+                    <span class="event-day">15</span>
+                    <span class="event-month">дек</span>
+                </div>
+                <div class="event-content">
+                    <strong class="event-title">День рождения Маши</strong>
+                    <span class="event-meta">Через 2 дня</span>
+                </div>
+                <button class="event-remind" title="Напомнить">🔔</button>
+            </div>
+
+            <div class="event-item">
+                <div class="event-date">
+                    <span class="event-day">25</span>
+                    <span class="event-month">дек</span>
+                </div>
+                <div class="event-content">
+                    <strong class="event-title">Новый год</strong>
+                    <span class="event-meta">Через 12 дней</span>
+                </div>
+                <button class="event-remind" title="Напомнить">🔔</button>
+            </div>
+
+            <div class="event-item">
+                <div class="event-date">
+                    <span class="event-day">31</span>
+                    <span class="event-month">дек</span>
+                </div>
+                <div class="event-content">
+                    <strong class="event-title">Корпоратив</strong>
+                    <span class="event-meta">Через 18 дней</span>
+                </div>
+                <button class="event-remind" title="Напомнить">🔔</button>
+            </div>
+        </div>
+
+        <a href="{% url 'profile' user.username %}" class="widget-view-all">Все события →</a>
+    </div>
+
+    <!-- Рекомендуемые группы -->
+    <div class="widget">
+        <div class="widget-header">
+            <h3 class="widget-title">
+                <span class="widget-icon">👪</span>
+                Рекомендуемые группы
+            </h3>
+        </div>
+
+        <div class="groups-list">
+            <div class="group-item">
+                <div class="group-avatar" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                    <span class="group-emoji">📷</span>
+                </div>
+                <div class="group-info">
+                    <strong class="group-name">Фотография</strong>
+                    <span class="group-meta">15.2K участников</span>
+                </div>
+                <button class="group-join">➕</button>
+            </div>
+
+            <div class="group-item">
+                <div class="group-avatar" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                    <span class="group-emoji">🎮</span>
+                </div>
+                <div class="group-info">
+                    <strong class="group-name">Gaming Community</strong>
+                    <span class="group-meta">8.7K участников</span>
+                </div>
+                <button class="group-join">➕</button>
+            </div>
+
+            <div class="group-item">
+                <div class="group-avatar" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                    <span class="group-emoji">💻</span>
+                </div>
+                <div class="group-info">
+                    <strong class="group-name">Программирование</strong>
+                    <span class="group-meta">23.4K участников</span>
+                </div>
+                <button class="group-join">➕</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Реклама -->
+    <div class="ad-widget">
+        <span class="ad-label">Реклама</span>
+        <div class="ad-content">
+            <div class="ad-icon">🚀</div>
+            <h4 class="ad-title">Премиум аккаунт</h4>
+            <p class="ad-description">Больше возможностей, никакой рекламы и эксклюзивные функции</p>
+            <button class="ad-button">Попробовать</button>
+        </div>
+        <div class="ad-footer">
+            <span class="ad-link" onclick="reportAd()">Пожаловаться</span>
+            <span class="ad-link" onclick="hideAd()">Скрыть</span>
+        </div>
+    </div>
+
+    <!-- Быстрые ссылки -->
+    <div class="quick-links-widget">
+        <div class="quick-links-grid">
+            <a href="#" class="quick-link">
+                <span class="quick-link-icon">🛒</span>
+                <span class="quick-link-text">Магазин</span>
+            </a>
+            <a href="#" class="quick-link">
+                <span class="quick-link-icon">🎮</span>
+                <span class="quick-link-text">Игры</span>
+            </a>
+            <a href="#" class="quick-link">
+                <span class="quick-link-icon">🎵</span>
+                <span class="quick-link-text">Музыка</span>
+            </a>
+            <a href="#" class="quick-link">
+                <span class="quick-link-icon">🎬</span>
+                <span class="quick-link-text">Кино</span>
+            </a>
+            <a href="#" class="quick-link">
+                <span class="quick-link-icon">📚</span>
+                <span class="quick-link-text">Статьи</span>
+            </a>
+            <a href="#" class="quick-link">
+                <span class="quick-link-icon">📊</span>
+                <span class="quick-link-text">Аналитика</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <div class="sidebar-footer">
+        <div class="footer-links">
+            <a href="#" class="footer-link">Помощь</a>
+            <span class="footer-separator">•</span>
+            <a href="#" class="footer-link">Безопасность</a>
+            <span class="footer-separator">•</span>
+            <a href="#" class="footer-link">Правила</a>
+        </div>
+        <div class="footer-copyright">
+            © 2024 SocialNet
+        </div>
+    </div>
+</aside>
+
+<style>
+.right-sidebar {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 20px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e0 #f1f5f9;
+}
+
+.right-sidebar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.right-sidebar::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+.right-sidebar::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 10px;
+}
+
+/* Виджет погоды */
+.weather-widget {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 24px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.weather-icon {
+    font-size: 32px;
+    background: rgba(255,255,255,0.1);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.weather-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.weather-temp {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.weather-city {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.date-info {
+    font-size: 13px;
+    font-weight: 500;
+    background: rgba(255,255,255,0.1);
+    padding: 6px 12px;
+    border-radius: 20px;
+}
+
+/* Основные виджеты */
+.widget {
+    margin-bottom: 28px;
+}
+
+.widget-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.widget-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0;
+}
+
+.widget-icon {
+    font-size: 18px;
+}
+
+.widget-badge {
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+}
+
+.widget-badge.accent {
+    background: #ff4444;
+    color: white;
+}
+
+/* Друзья онлайн */
+.online-friends-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.online-friend-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+    animation: slideInRight 0.3s ease;
+    animation-fill-mode: both;
+}
+
+.online-friend-item:hover {
+    background: #f8fafc;
+    transform: translateX(-4px);
+}
+
+.online-friend-avatar {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+}
+
+.online-friend-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.online-indicator {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 10px;
+    height: 10px;
+    background: #22c55e;
+    border: 2px solid white;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.online-friend-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.online-friend-name {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e293b;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.online-friend-status {
+    font-size: 11px;
+    color: #22c55e;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.online-friend-status::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: #22c55e;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* Заявки в друзья */
+.friend-requests-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.friend-request-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    background: #f8fafc;
+    border-radius: 12px;
+    transition: all 0.2s;
+}
+
+.friend-request-item:hover {
+    background: #f1f5f9;
+}
+
+.request-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+    flex: 1;
+    min-width: 0;
+}
+
+.request-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.request-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.request-name {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: #1e293b;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.request-time {
+    font-size: 11px;
+    color: #64748b;
+}
+
+.request-actions {
+    display: flex;
+    gap: 4px;
+}
+
+.action-btn {
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: all 0.2s;
+}
+
+.action-btn.accept {
+    background: #22c55e;
+    color: white;
+}
+
+.action-btn.accept:hover {
+    background: #16a34a;
+    transform: scale(1.1);
+}
+
+.action-btn.reject {
+    background: #ef4444;
+    color: white;
+}
+
+.action-btn.reject:hover {
+    background: #dc2626;
+    transform: scale(1.1);
+}
+
+/* События */
+.events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.event-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: #f8fafc;
+    border-radius: 12px;
+    border-left: 4px solid #1877f2;
+    transition: all 0.2s;
+}
+
+.event-item:hover {
+    background: #f1f5f9;
+    transform: translateX(-4px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.event-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: white;
+    padding: 6px;
+    border-radius: 10px;
+    min-width: 45px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.event-day {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1877f2;
+    line-height: 1;
+}
+
+.event-month {
+    font-size: 10px;
+    color: #64748b;
+    text-transform: uppercase;
+}
+
+.event-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.event-title {
+    display: block;
+    font-size: 13px;
+    color: #1e293b;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.event-meta {
+    font-size: 11px;
+    color: #64748b;
+}
+
+.event-remind {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.event-remind:hover {
+    background: #1877f2;
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Группы */
+.groups-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.group-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px;
+    border-radius: 12px;
+    transition: all 0.2s;
+}
+
+.group-item:hover {
+    background: #f8fafc;
+}
+
+.group-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: white;
+    flex-shrink: 0;
+}
+
+.group-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.group-name {
+    display: block;
+    font-size: 13px;
+    color: #1e293b;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.group-meta {
+    font-size: 11px;
+    color: #64748b;
+}
+
+.group-join {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: #f1f5f9;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #475569;
+    transition: all 0.2s;
+}
+
+.group-join:hover {
+    background: #1877f2;
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Виджет просмотра всего */
+.widget-view-all {
+    display: block;
+    text-align: center;
+    margin-top: 12px;
+    padding: 8px;
+    background: #f8fafc;
+    border-radius: 10px;
+    color: #1877f2;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.widget-view-all:hover {
+    background: #e8f0fe;
+}
+
+/* Пустое состояние */
+.empty-state {
+    text-align: center;
+    padding: 24px 16px;
+    background: #f8fafc;
+    border-radius: 16px;
+}
+
+.empty-state.small {
+    padding: 16px;
+}
+
+.empty-icon {
+    font-size: 32px;
+    margin-bottom: 8px;
+    opacity: 0.5;
+}
+
+.empty-text {
+    font-size: 13px;
+    color: #64748b;
+    margin: 0 0 12px 0;
+}
+
+.empty-link {
+    display: inline-block;
+    padding: 6px 16px;
+    background: #1877f2;
+    color: white;
+    text-decoration: none;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.empty-link:hover {
+    background: #166fe5;
+    transform: translateY(-2px);
+}
+
+/* Реклама */
+.ad-widget {
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 24px;
+    position: relative;
+    border: 1px dashed #cbd5e0;
+}
+
+.ad-label {
+    position: absolute;
+    top: -8px;
+    left: 16px;
+    background: white;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+}
+
+.ad-content {
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.ad-icon {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+.ad-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0 0 4px 0;
+}
+
+.ad-description {
+    font-size: 12px;
+    color: #64748b;
+    margin: 0 0 12px 0;
+    line-height: 1.5;
+}
+
+.ad-button {
+    background: linear-gradient(135deg, #1877f2, #0e5a9e);
+    color: white;
+    border: none;
+    padding: 8px 24px;
+    border-radius: 24px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.ad-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3);
+}
+
+.ad-footer {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 8px;
+}
+
+.ad-link {
+    font-size: 10px;
+    color: #94a3b8;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.ad-link:hover {
+    color: #1877f2;
+    text-decoration: underline;
+}
+
+/* Быстрые ссылки */
+.quick-links-widget {
+    margin-bottom: 24px;
+}
+
+.quick-links-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.quick-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 8px;
+    background: #f8fafc;
+    border-radius: 12px;
+    text-decoration: none;
+    color: #1e293b;
+    transition: all 0.2s;
+}
+
+.quick-link:hover {
+    background: #e8f0fe;
+    transform: translateY(-2px);
+}
+
+.quick-link-icon {
+    font-size: 20px;
+}
+
+.quick-link-text {
+    font-size: 10px;
+    font-weight: 500;
+    text-align: center;
+}
+
+/* Футер */
+.sidebar-footer {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.footer-link {
+    color: #64748b;
+    text-decoration: none;
+    font-size: 11px;
+    transition: color 0.2s;
+}
+
+.footer-link:hover {
+    color: #1877f2;
+    text-decoration: underline;
+}
+
+.footer-separator {
+    color: #cbd5e0;
+    font-size: 11px;
+}
+
+.footer-copyright {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 10px;
+}
+
+/* Анимации */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.online-friend-item:nth-child(1) { animation-delay: 0.05s; }
+.online-friend-item:nth-child(2) { animation-delay: 0.1s; }
+.online-friend-item:nth-child(3) { animation-delay: 0.15s; }
+.online-friend-item:nth-child(4) { animation-delay: 0.2s; }
+.online-friend-item:nth-child(5) { animation-delay: 0.25s; }
+.online-friend-item:nth-child(6) { animation-delay: 0.3s; }
+
+/* Темная тема (поддержка) */
+@media (prefers-color-scheme: dark) {
+    .right-sidebar {
+        background: #1e293b;
+    }
+
+    .widget-title {
+        color: #f1f5f9;
+    }
+
+    .online-friend-name {
+        color: #f1f5f9;
+    }
+}
+</style>
+
+<script>
+// Функции для правого сайдбара
+function acceptFriendRequest(requestId) {
+    fetch(`/friends/accept/${requestId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showNotification('Заявка принята!', 'success');
+            location.reload();
+        }
+    });
+}
+
+function rejectFriendRequest(requestId) {
+    fetch(`/friends/reject/${requestId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showNotification('Заявка отклонена', 'info');
+            location.reload();
+        }
+    });
+}
+
+function reportAd() {
+    showNotification('Спасибо, мы рассмотрим вашу жалобу', 'info');
+}
+
+function hideAd() {
+    const ad = document.querySelector('.ad-widget');
+    ad.style.animation = 'slideOut 0.3s forwards';
+    setTimeout(() => {
+        ad.remove();
+    }, 300);
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 12px 20px;
+        background: ${type === 'success' ? '#22c55e' : '#3b82f6'};
+        color: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 9999;
+        animation: slideIn 0.3s ease;
+    `;
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
+@keyframes slideOut {
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+</script>

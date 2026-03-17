@@ -1,0 +1,198 @@
+{% extends 'base_auth.html' %}
+
+{% block title %}Друзья{% endblock %}
+
+{% block content %}
+<div style="max-width: 1000px; margin: 0 auto; padding: 20px;">
+    <!-- Заголовок -->
+    <div style="margin-bottom: 30px;">
+        <h1 style="margin-bottom: 10px; color: #333;">👥 Друзья</h1>
+        <p style="color: #666;">Управляйте своими друзьями и заявками</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px;">
+        <!-- Основная колонка -->
+        <div>
+            <!-- Заявки в друзья -->
+            {% if incoming_requests %}
+            <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 30px;">
+                <h2 style="margin-bottom: 20px; color: #333;">📨 Входящие заявки ({{ incoming_requests|length }})</h2>
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    {% for request in incoming_requests %}
+                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                                        display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; font-weight: bold;">
+                                {% if request.from_user.profile.avatar %}
+                                <img src="{{ request.from_user.profile.avatar.url }}" alt="{{ request.from_user.username }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                {% else %}
+                                {{ request.from_user.username|first|upper }}
+                                {% endif %}
+                            </div>
+                            <div>
+                                <h3 style="margin: 0 0 5px 0;">
+                                    <a href="{% url 'profile' request.from_user.username %}" style="color: #333; text-decoration: none;">
+                                        {{ request.from_user.username }}
+                                    </a>
+                                </h3>
+                                <p style="margin: 0; color: #666; font-size: 13px;">Отправлено {{ request.created_at|timesince }} назад</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <form method="post" action="{% url 'accept_friend_request' request.id %}">
+                                {% csrf_token %}
+                                <button type="submit"
+                                        style="padding: 8px 20px; background: #42b72a; color: white; border: none; border-radius: 8px;
+                                               font-weight: 600; cursor: pointer;">
+                                    Принять
+                                </button>
+                            </form>
+                            <form method="post" action="{% url 'reject_friend_request' request.id %}">
+                                {% csrf_token %}
+                                <button type="submit"
+                                        style="padding: 8px 20px; background: #ff4444; color: white; border: none; border-radius: 8px;
+                                               font-weight: 600; cursor: pointer;">
+                                    Отклонить
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Мои друзья -->
+            <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2 style="margin: 0; color: #333;">🤝 Мои друзья ({{ friends|length }})</h2>
+                    <a href="{% url 'search_friends' %}"
+                       style="padding: 10px 20px; background: linear-gradient(135deg, #1877f2 0%, #165fe5 100%);
+                              color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
+                        + Найти друзей
+                    </a>
+                </div>
+
+                {% if friends %}
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
+                    {% for friend in friends %}
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; text-align: center;">
+                        <div style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                                    display: flex; align-items: center; justify-content: center; color: white; font-size: 32px; font-weight: bold; margin: 0 auto 15px auto;">
+                            {% if friend.profile.avatar %}
+                            <img src="{{ friend.profile.avatar.url }}" alt="{{ friend.username }}" style="width: 100%; height: 100%; object-fit: cover;">
+                            {% else %}
+                            {{ friend.username|first|upper }}
+                            {% endif %}
+                        </div>
+
+                        <h3 style="margin: 0 0 5px 0;">
+                            <a href="{% url 'profile' friend.username %}" style="color: #333; text-decoration: none;">
+                                {{ friend.username }}
+                            </a>
+                        </h3>
+
+                        {% if friend.first_name or friend.last_name %}
+                        <p style="margin: 0 0 15px 0; color: #666; font-size: 14px;">
+                            {{ friend.first_name }} {{ friend.last_name }}
+                        </p>
+                        {% endif %}
+
+                        <div style="display: flex; gap: 10px; justify-content: center;">
+                            <a href="{% url 'profile' friend.username %}"
+                               style="padding: 8px 15px; background: #1877f2; color: white; text-decoration: none; border-radius: 6px; font-size: 14px;">
+                                Профиль
+                            </a>
+                            <form method="post" action="{% url 'remove_friend' friend.id %}" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit"
+                                        style="padding: 8px 15px; background: #ff4444; color: white; border: none; border-radius: 6px;
+                                               font-size: 14px; cursor: pointer;">
+                                    Удалить
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div style="text-align: center; padding: 40px 20px;">
+                    <div style="font-size: 60px; margin-bottom: 20px;">👤</div>
+                    <h3 style="color: #666; margin-bottom: 10px;">У вас пока нет друзей</h3>
+                    <p style="color: #888; margin-bottom: 30px;">Найдите друзей и отправьте им заявки</p>
+                    <a href="{% url 'search_friends' %}"
+                       style="padding: 12px 30px; background: linear-gradient(135deg, #1877f2 0%, #165fe5 100%);
+                              color: white; text-decoration: none; border-radius: 8px; font-weight: 600; display: inline-block;">
+                        Найти друзей
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Боковая колонка -->
+        <div>
+            <!-- Статистика -->
+            <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 30px;">
+                <h3 style="margin-bottom: 20px; color: #333;">📊 Статистика</h3>
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: #666;">Друзей:</span>
+                        <span style="font-weight: 600; color: #333;">{{ friends|length }}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: #666;">Входящих заявок:</span>
+                        <span style="font-weight: 600; color: #ffaa00;">{{ incoming_requests|length }}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: #666;">Исходящих заявок:</span>
+                        <span style="font-weight: 600; color: #1877f2;">{{ outgoing_requests|length }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Исходящие заявки -->
+            {% if outgoing_requests %}
+            <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                <h3 style="margin-bottom: 20px; color: #333;">📤 Исходящие заявки</h3>
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    {% for request in outgoing_requests %}
+                    <div style="display: flex; align-items: center; gap: 10px; padding: 10px; background: #f8f9fa; border-radius: 8px;">
+                        <div style="width: 40px; height: 40px; border-radius: 50%; overflow: hidden; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                                    display: flex; align-items: center; justify-content: center; color: white; font-size: 16px; font-weight: bold;">
+                            {% if request.to_user.profile.avatar %}
+                            <img src="{{ request.to_user.profile.avatar.url }}" alt="{{ request.to_user.username }}" style="width: 100%; height: 100%; object-fit: cover;">
+                            {% else %}
+                            {{ request.to_user.username|first|upper }}
+                            {% endif %}
+                        </div>
+                        <div style="flex: 1;">
+                            <p style="margin: 0; font-size: 14px;">
+                                <a href="{% url 'profile' request.to_user.username %}" style="color: #333; text-decoration: none;">
+                                    {{ request.to_user.username }}
+                                </a>
+                            </p>
+                            <p style="margin: 0; color: #888; font-size: 12px;">Ожидает ответа</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Быстрый поиск -->
+            <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-top: 30px;">
+                <h3 style="margin-bottom: 15px; color: #333;">🔍 Быстрый поиск</h3>
+                <form method="get" action="{% url 'search_friends' %}" style="display: flex; gap: 10px;">
+                    <input type="text" name="q" placeholder="Поиск..."
+                           style="flex: 1; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px;">
+                    <button type="submit"
+                            style="padding: 10px 20px; background: #1877f2; color: white; border: none; border-radius: 8px; cursor: pointer;">
+                        Найти
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

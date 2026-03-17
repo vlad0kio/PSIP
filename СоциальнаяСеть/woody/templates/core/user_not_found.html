@@ -1,0 +1,69 @@
+{% extends 'base_guest.html' %}
+
+{% block title %}Пользователь не найден{% endblock %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 100px auto; padding: 20px; text-align: center;">
+    <div style="background: white; padding: 50px; border-radius: 20px; box-shadow: 0 5px 25px rgba(0,0,0,0.1);">
+        
+        <!-- Иконка -->
+        <div style="font-size: 100px; color: #ff6b6b; margin-bottom: 30px;">
+            👤❓
+        </div>
+        
+        <!-- Заголовок -->
+        <h1 style="margin-bottom: 20px; color: #333; font-size: 32px;">
+            Пользователь не найден
+        </h1>
+        
+        <!-- Сообщение -->
+        <p style="color: #666; font-size: 18px; margin-bottom: 30px; line-height: 1.5;">
+            Пользователь <strong style="color: #1877f2;">"{{ username }}"</strong> не существует 
+            или был удален.
+        </p>
+        
+        <!-- Дополнительная информация -->
+        <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 30px;">
+            <p style="color: #666; margin: 0;">
+                Возможно:
+            </p>
+            <ul style="text-align: left; color: #666; padding-left: 20px; margin: 15px 0 0 0;">
+                <li>Пользователь изменил имя</li>
+                <li>Вы ошиблись в написании имени</li>
+                <li>Аккаунт был удален</li>
+            </ul>
+        </div>
+        
+        <!-- Кнопки действий -->
+        <div style="display: flex; gap: 15px; justify-content: center; margin-top: 30px;">
+            <a href="{% url 'feed' %}" 
+               style="padding: 14px 30px; background: #1877f2; color: white; 
+                      text-decoration: none; border-radius: 10px; font-weight: 600;">
+                На главную
+            </a>
+            
+            <a href="{% url 'search_friends' %}" 
+               style="padding: 14px 30px; background: white; color: #1877f2; 
+                      text-decoration: none; border-radius: 10px; font-weight: 600; 
+                      border: 2px solid #1877f2;">
+                Поиск друзей
+            </a>
+        </div>
+        
+        <!-- Поисковая форма -->
+        <div style="margin-top: 40px; padding-top: 30px; border-top: 1px solid #eee;">
+            <h3 style="margin-bottom: 15px; color: #333;">Попробуйте найти другого пользователя</h3>
+            <form method="get" action="{% url 'search_friends' %}" style="display: flex; gap: 10px;">
+                <input type="text" name="q" placeholder="Введите имя пользователя..." 
+                       style="flex: 1; padding: 14px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
+                <button type="submit" 
+                        style="padding: 14px 25px; background: linear-gradient(135deg, #1877f2 0%, #165fe5 100%); 
+                               color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                    Найти
+                </button>
+            </form>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}

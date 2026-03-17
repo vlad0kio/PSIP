@@ -1,0 +1,20 @@
+{% extends "lr23/base.html" %}
+{% load static %}
+
+{% block title %}Информация о файле{% endblock %}
+
+{% block content %}
+    <h2>Информация о файле</h2>
+    
+    {% if not file_info.exists %}
+        <p>Файл не найден!</p>
+    {% else %}
+        <p>{{ file_info.file_path }} - {% if file_info.is_file %}файл{% else %}не файл{% endif %}</p>
+        <p>{{ file_info.file_path }} - {% if file_info.is_dir %}каталог{% else %}не каталог{% endif %}</p>
+        <p>{{ file_info.file_path }} {% if file_info.is_readable %}доступен для чтения{% else %}не доступен для чтения{% endif %}</p>
+        <p>{{ file_info.file_path }} {% if file_info.is_writable %}доступен для записи{% else %}не доступен для записи{% endif %}</p>
+        <p>Размер {{ file_info.file_path }} в байтах - {{ file_info.size }}</p>
+        <p>Последнее изменение {{ file_info.file_path }} - {{ file_info.last_modified|date:"d M Y H:i" }}</p>
+        <p>Последнее обращение к {{ file_info.file_path }} - {{ file_info.last_accessed|date:"d M Y H:i" }}</p>
+    {% endif %}
+{% endblock %}

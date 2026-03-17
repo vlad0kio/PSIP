@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Цикл while{% endblock %}
+
+{% block content %}
+<div class="task-card">
+    <h2 class="task-title">Цикл while ({{ n }}+5 = {{ total_count }} раз)</h2>
+    <div class="info-grid">
+        {% for item in results %}
+        <div class="info-item">
+            <div class="info-value">{{ item.number }}. {{ item.full_name }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

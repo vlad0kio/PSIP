@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SocialNet - Социальная сеть{% endblock %}</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌐</text></svg>">
+
+    <style>
+        /* ===== CSS Variables ===== */
+        :root {
+            --primary-color: #1877f2;
+            --primary-dark: #166fe5;
+            --primary-light: #e7f3ff;
+            --secondary-color: #42b72a;
+            --danger-color: #ff4444;
+            --warning-color: #ff8c00;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --bg-primary: #f0f2f5;
+            --bg-white: #ffffff;
+            --bg-sidebar: #ffffff;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+            --shadow-hover: 0 12px 32px rgba(0,0,0,0.15);
+            --transition: all 0.3s ease;
+            --border-radius-sm: 8px;
+            --border-radius-md: 12px;
+            --border-radius-lg: 16px;
+            --border-radius-xl: 24px;
+            --border-radius-full: 9999px;
+        }
+
+        /* Темная тема */
+        .dark-theme {
+            --primary-color: #3b82f6;
+            --primary-light: #1e3a5f;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --bg-primary: #0f172a;
+            --bg-white: #1e293b;
+            --bg-sidebar: #1e293b;
+            --border-color: #334155;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.5);
+        }
+
+        /* ===== Base Styles ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: var(--transition);
+        }
+
+        .app-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== Header Styles ===== */
+        .header {
+            background: var(--bg-white);
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .dark-theme .header {
+            background: rgba(30, 41, 59, 0.95);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-icon {
+            font-size: 32px;
+            animation: spin 20s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ===== Footer Styles ===== */
+        .footer {
+            background: var(--bg-white);
+            position: relative;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-wave {
+            position: absolute;
+            top: -100px;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            pointer-events: none;
+        }
+
+        .footer-wave svg {
+            width: 100%;
+            height: 100px;
+            fill: var(--primary-color);
+            opacity: 0.1;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+            border-radius: 2px;
+            transition: width 0.3s;
+        }
+
+        .footer-menu {
+            list-style: none;
+        }
+
+        .footer-menu li {
+            margin-bottom: 12px;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: var(--transition);
+            display: inline-block;
+            position: relative;
+        }
+
+        .footer-link:hover {
+            color: var(--primary-color);
+            transform: translateX(10px);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 30px 0;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--bg-primary);
+            border-radius: var(--border-radius-full);
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .footer-bottom {
+            padding: 20px 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-bottom-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .copyright {
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        /* ===== Components ===== */
+        /* Уведомления */
+        .messages {
+            margin: 20px auto;
+            max-width: 600px;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: var(--border-radius-md);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            animation: slideIn 0.3s ease;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border-left: 4px solid #ffc107;
+        }
+
+        .alert-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: var(--transition);
+        }
+
+        .alert-close:hover {
+            opacity: 1;
+        }
+
+        /* Кнопки */
+        .btn {
+            display: inline-block;
+            padding: 10px 24px;
+            border: none;
+            border-radius: var(--border-radius-full);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-color);
+            transform: translateY(-2px);
+        }
+
+        /* Анимации */
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* ===== Responsive Design ===== */
+        @media (max-width: 992px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                padding: 10px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .footer-bottom-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .social-links {
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-wave {
+                top: -50px;
+            }
+
+            .footer-wave svg {
+                height: 50px;
+            }
+        }
+
+        /* ===== Utility Classes ===== */
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .text-left { text-align: left; }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="app-container">
+        <!-- Хедер для гостей -->
+        <header class="header">
+            <div class="header-container">
+                <a href="{% url 'feed' %}" class="logo">
+                    <span class="logo-icon">🌐</span>
+                    <span class="logo-text">SocialNet</span>
+                </a>
+                <div class="nav-icons">
+                    <a href="{% url 'login' %}" class="btn btn-primary">Вход</a>
+                    <a href="{% url 'register' %}" class="btn btn-secondary">Регистрация</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Основной контент для гостей -->
+        <main class="main-content" style="max-width: 1400px; margin: 0 auto; padding: 20px; width: 100%; flex: 1;">
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                    <button class="alert-close" onclick="this.parentElement.remove()">×</button>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% block content %}{% endblock %}
+        </main>
+
+        <!-- Футер (общий для всех) -->
+        <footer class="footer">
+            <div class="footer-wave">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                    <path fill="var(--primary-color)" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,170.7C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+                </svg>
+            </div>
+
+            <div class="footer-container">
+                <div class="footer-grid">
+                    <div class="footer-column">
+                        <h4 class="footer-title">О проекте</h4>
+                        <ul class="footer-menu">
+                            <li><a href="{% url 'feed' %}" class="footer-link">О нас</a></li>
+                            <li><a href="{% url 'feed' %}" class="footer-link">Контакты</a></li>
+                            <li><a href="{% url 'feed' %}" class="footer-link">Карьера</a></li>
+                            <li><a href="{% url 'feed' %}" class="footer-link">Блог</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Разработчикам</h4>
+                        <ul class="footer-menu">
+                            <li><a href="{% url 'feed' %}" class="footer-link">Документация</a></li>
+                            <li><a href="{% url 'feed' %}" class="footer-link">API</a></li>
+                            <li><a href="{% url 'feed' %}" class="footer-link">Open Source</a></li>
+                            <li><a href="{% url 'feed' %}" class="footer-link">Статус</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Правовая информация</h4>
+                        <ul class="footer-menu">
+                            <li><a href="{% url 'feed' %}" class="footer-link">Конфиденциальность</a></li>
+                            <li><a href="{% url 'feed' %}" class="footer-link">Условия использования</a></li>
+                            <li><a href="{% url 'feed' %}" class="footer-link">Cookie</a></li>
+                            <li><a href="{% url 'feed' %}" class="footer-link">Реклама</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Поддержка</h4>
+                        <ul class="footer-menu">
+                            <li><a href="{% url 'feed' %}" class="footer-link">Помощь</a></li>
+                            <li><a href="{% url 'feed' %}" class="footer-link">FAQ</a></li>
+                            <li><a href="{% url 'feed' %}" class="footer-link">Служба поддержки</a></li>
+                            <li><a href="{% url 'feed' %}" class="footer-link">Обратная связь</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="social-links">
+                    <a href="#" class="social-link">📘 Facebook</a>
+                    <a href="#" class="social-link">🐦 Twitter</a>
+                    <a href="#" class="social-link">📷 Instagram</a>
+                    <a href="#" class="social-link">📱 Telegram</a>
+                    <a href="#" class="social-link">▶️ YouTube</a>
+                    <a href="#" class="social-link">💻 GitHub</a>
+                </div>
+
+                <div class="footer-bottom">
+                    <div class="footer-bottom-content">
+                        <div class="copyright">
+                            <p>© 2024 SocialNet. Все права защищены.</p>
+                            <p class="company-info">ООО "Социальная сеть", ИНН 1234567890</p>
+                        </div>
+
+                        <div class="language-selector">
+                            <button class="language-btn" onclick="toggleLanguageMenu()">
+                                <span class="language-icon">🌐</span>
+                                <span class="language-name">Русский</span>
+                                <span class="language-arrow">▼</span>
+                            </button>
+                        </div>
+
+                        <div class="payment-methods">
+                            <span class="payment-icon" title="Visa">💳</span>
+                            <span class="payment-icon" title="Mastercard">💳</span>
+                            <span class="payment-icon" title="PayPal">📧</span>
+                            <span class="payment-icon" title="Apple Pay">🍎</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Блок для дополнительных скриптов -->
+    {% block extra_js %}{% endblock %}
+
+    <script>
+        // Базовый JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Автоматическое скрытие сообщений через 5 секунд
+            setTimeout(function() {
+                document.querySelectorAll('.alert').forEach(function(message) {
+                    message.style.transition = 'opacity 0.5s';
+                    message.style.opacity = '0';
+                    setTimeout(function() {
+                        if (message.parentNode) {
+                            message.parentNode.removeChild(message);
+                        }
+                    }, 500);
+                });
+            }, 5000);
+
+            // Закрытие алертов по кнопке
+            document.querySelectorAll('.alert-close').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.parentElement.remove();
+                });
+            });
+        });
+
+        // Функция переключения темы
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            const isDark = document.body.classList.contains('dark-theme');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        // Загрузка сохраненной темы
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-theme');
+        }
+
+        // Функция для получения CSRF токена
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+</body>
+</html>
